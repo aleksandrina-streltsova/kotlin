@@ -425,17 +425,7 @@ public abstract class ExternalSystemTestCase extends UsefulTestCase {
     }
 
     private void build(Object[] buildableElements) {
-        Promise<ProjectTaskManager.Result> promise;
-        if (buildableElements instanceof Module[]) {
-            promise = ProjectTaskManager.getInstance(myProject).build((Module[])buildableElements);
-        }
-        else if (buildableElements instanceof Artifact[]) {
-            promise = ProjectTaskManager.getInstance(myProject).build((Artifact[])buildableElements);
-        }
-        else {
-            throw new AssertionError("Unsupported buildableElements: " + Arrays.toString(buildableElements));
-        }
-        edt(() -> PlatformTestUtil.waitForPromise(promise));
+        ExternalSystemTestCaseBunch.build(buildableElements, myProject);
     }
 
     private void compile(@NotNull CompileScope scope) {
