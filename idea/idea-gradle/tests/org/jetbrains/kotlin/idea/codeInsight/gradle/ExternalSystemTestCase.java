@@ -77,9 +77,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-/**
- * @author Vladislav.Soroka
- */
 public abstract class ExternalSystemTestCase extends UsefulTestCase {
 
     private static final BiPredicate<Object, Object> EQUALS_PREDICATE = (t, u) -> Objects.equals(t, u);
