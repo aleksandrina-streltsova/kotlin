@@ -7,11 +7,12 @@ import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.service.WizardKotlinVersion
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
-import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.GradleDependsOnRelationIR
+import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.irsList
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.gradle.GradlePlugin
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.isGradle
+import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 import org.jetbrains.kotlin.tools.projectWizard.plugins.templates.TemplatesPlugin
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
 import java.nio.file.Path
@@ -241,30 +242,29 @@ class ModulesToIRsConverter(
         val sourcesetss = target.sourcesets.map { sourceset ->
             val typeName = sourceset.sourcesetType.name.capitalize()
             val sourcesetName = target.name + typeName
-            val sourcesetIrs = buildList<BuildSystemIR> {
+            val sourcesetIrs = irsList {
                 if (sourceset.sourcesetType == SourcesetType.main) {
-                    addIfNotNull(
-                        target.configurator.createStdlibType(data, target)?.let { stdlibType ->
-                            KotlinStdlibDependencyIR(
-                                type = stdlibType,
-                                isInMppModule = true,
-                                kotlinVersion = data.kotlinVersion,
-                                dependencyType = DependencyType.MAIN
-                            )
-                        }
-                    )
+                    target.configurator.createStdlibType(data, target)?.let { stdlibType ->
+                        +KotlinStdlibDependencyIR(
+                            type = stdlibType,
+                            isInMppModule = true,
+                            kotlinVersion = data.kotlinVersion,
+                            dependencyType = DependencyType.MAIN
+                        )
+                    }
                 }
                 if (target.kind == ModuleKind.hmppSourceSet) {
-                    addIfNotNull(
-                        target.parent?.let { parent ->
-                            val parentName = if (parent.kind == ModuleKind.multiplatform) commonModule?.name else parent.name
-                            val parentSourceSetName = parentName?.let { it + typeName }
-                            GradleDependsOnRelationIR(null, parentSourceSetName)
+                    val parentName = if (target.parent?.kind == ModuleKind.multiplatform) commonModule?.name else target.parent?.name
+                    parentName?.let {
+                        addRaw {
+                            call("dependsOn") { +(parentName + typeName) }
                         }
-                    )
+                    }
                     val childSourceSetNames = target.subModules.filter { it.kind != ModuleKind.hmppSourceSet }.map { it.name + typeName }
                     for (childSourceSetName in childSourceSetNames) {
-                        +GradleDependsOnRelationIR(childSourceSetName, null)
+                        addRaw {
+                            call("$childSourceSetName.dependsOn") { +if (dsl == GradlePrinter.GradleDsl.KOTLIN) "this" else "it" }
+                        }
                     }
                 }
             }
