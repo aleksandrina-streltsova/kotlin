@@ -3,22 +3,22 @@ package org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators
 
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
-import org.jetbrains.kotlin.tools.projectWizard.core.Reader
-import org.jetbrains.kotlin.tools.projectWizard.core.buildList
+import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.ModuleConfiguratorSetting
-import org.jetbrains.kotlin.tools.projectWizard.core.safeAs
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildSystemIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.KotlinBuildSystemPluginIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.*
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.maven.MavenPropertyIR
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemType
+import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.gradle.GradlePlugin
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.isGradle
-import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConversionData
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleType
+import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConversionData
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
+import java.nio.file.Path
 
 interface JvmModuleConfigurator : ModuleConfiguratorWithTests {
     companion object : ModuleConfiguratorSettings() {
@@ -139,3 +139,19 @@ val ModuleType.defaultTarget
         ModuleType.common -> CommonTargetConfigurator
         ModuleType.android -> AndroidTargetConfigurator
     }
+
+object HmppSourceSetConfigurator : ModuleConfigurator {
+    override val id: String = "HMPP Module"
+    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.sourceset")
+    override val suggestedModuleName: String = "sourceSet"
+
+    override val moduleKind: ModuleKind = ModuleKind.hmppSourceSet
+    override val canContainSubModules: Boolean = true
+
+    override fun Writer.runArbitraryTask(
+        configurationData: ModulesToIrConversionData,
+        module: Module,
+        modulePath: Path
+    ): TaskResult<Unit> =
+        GradlePlugin::gradleProperties.addValues("kotlin.mpp.enableGranularSourceSetsMetadata" to "true")
+}

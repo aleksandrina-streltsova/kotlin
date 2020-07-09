@@ -1,7 +1,9 @@
 package org.jetbrains.kotlin.tools.projectWizard.wizard.ui.secondStep.modulesEditor
 
 import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.ModuleConfigurator
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.TargetConfigurator
+import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.withAllSubModules
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
 
 class NewModuleCreator {
@@ -15,12 +17,12 @@ class NewModuleCreator {
         return "${name}_$index"
     }
 
-    private fun newTarget(
-        configurator: TargetConfigurator,
+    private fun newTargetOrSourceSet(
+        configurator: ModuleConfigurator,
         allTargets: List<Module>
     ): Module = MultiplatformTargetModule(
         suggestName(
-            configurator.suggestedModuleName ?: configurator.moduleType.name,
+            configurator.suggestedModuleName ?: if (configurator is TargetConfigurator) configurator.moduleType.name else "module",
             allTargets
         ),
         configurator,
@@ -46,8 +48,9 @@ class NewModuleCreator {
         allowSinglepaltformJs = allowSinglepaltformJs,
         allowAndroid = allowAndroid,
         allowIos = allowIos,
-        createTarget = { targetConfigurator ->
-            createModule(newTarget(targetConfigurator, target?.subModules.orEmpty()))
+        createTargetOrSourceSet = { configurator ->
+            val mppModule = target?.topmostHmppSourcesetAncestor?.parent ?: target
+            createModule(newTargetOrSourceSet(configurator, mppModule?.subModules?.withAllSubModules().orEmpty()))
         },
         createModule = { configurator ->
             val name = suggestName(configurator.suggestedModuleName ?: "module", allModules)

@@ -64,6 +64,7 @@ class ModulesEditorToolbarDecorator(
                     ModuleKind.singleplatformJs -> KotlinNewProjectWizardBundle.message("module.kind.js.module")
                     ModuleKind.singleplatformAndroid -> KotlinNewProjectWizardBundle.message("module.kind.android.module")
                     ModuleKind.target -> ""
+                    ModuleKind.hmppSourceSet -> ""
                     null -> ""
                 }
 
@@ -128,4 +129,5 @@ private val Module.kindText
         ModuleKind.singleplatformJs -> KotlinNewProjectWizardBundle.message("module.kind.module")
         ModuleKind.singleplatformAndroid -> KotlinNewProjectWizardBundle.message("module.kind.android.module")
         ModuleKind.target -> KotlinNewProjectWizardBundle.message("module.kind.target")
+        ModuleKind.hmppSourceSet -> KotlinNewProjectWizardBundle.message("module.kind.sourceset")
     }

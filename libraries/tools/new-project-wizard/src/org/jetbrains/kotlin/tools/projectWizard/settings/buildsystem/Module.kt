@@ -1,6 +1,5 @@
 package org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem
 
-import kotlinx.collections.immutable.PersistentList
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.GeneratedIdentificator
 import org.jetbrains.kotlin.tools.projectWizard.Identificator
@@ -21,6 +20,7 @@ import org.jetbrains.kotlin.tools.projectWizard.templates.Template
 enum class ModuleKind : DisplayableSettingItem {
     multiplatform,
     target,
+    hmppSourceSet,
     singleplatformJvm,
     singleplatformAndroid,
     singleplatformJs, ;
@@ -65,6 +65,7 @@ class Module(
     override val greyText: String?
         get() = when {
             kind == ModuleKind.target -> configurator.text + " " + KotlinNewProjectWizardBundle.message("module.kind.target")
+            kind == ModuleKind.hmppSourceSet -> KotlinNewProjectWizardBundle.message("module.kind.hmpp.sourceset")
             configurator == MppModuleConfigurator -> KotlinNewProjectWizardBundle.message("module.kind.mpp.module")
             configurator == AndroidSinglePlatformModuleConfigurator -> KotlinNewProjectWizardBundle.message("module.kind.android.module")
             configurator == IOSSinglePlatformModuleConfigurator -> KotlinNewProjectWizardBundle.message("module.kind.ios.module")
@@ -169,6 +170,15 @@ val Sourceset.path
 
 val Module.isRootModule
     get() = parent == null
+
+val Module.topmostHmppSourcesetAncestor: Module?
+    get() = if (kind == ModuleKind.hmppSourceSet) {
+        var hmppSourceSetAncestor: Module? = this
+        while (hmppSourceSetAncestor?.parent?.kind == ModuleKind.hmppSourceSet) {
+            hmppSourceSetAncestor = this.parent
+        }
+        hmppSourceSetAncestor
+    } else null
 
 @Suppress("FunctionName")
 fun MultiplatformTargetModule(@NonNls name: String, configurator: ModuleConfigurator, sourcesets: List<Sourceset>) =

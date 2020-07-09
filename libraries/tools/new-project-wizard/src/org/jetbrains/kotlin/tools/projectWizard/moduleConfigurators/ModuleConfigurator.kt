@@ -6,10 +6,7 @@ import org.jetbrains.kotlin.tools.projectWizard.SettingsOwner
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.*
 import org.jetbrains.kotlin.tools.projectWizard.enumSettingImpl
-import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildFileIR
-import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildSystemIR
-import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.KotlinBuildSystemPluginIR
-import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.StdlibType
+import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConversionData
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.correspondingStdlib
@@ -261,6 +258,7 @@ interface ModuleConfigurator : DisplayableSettingItem, EntitiesOwnerDescriptor {
             +JvmTargetConfigurator
             +AndroidTargetConfigurator
             +MppModuleConfigurator
+            +HmppSourceSetConfigurator
             +JvmSinglePlatformModuleConfigurator
             +AndroidSinglePlatformModuleConfigurator
             +IOSSinglePlatformModuleConfigurator

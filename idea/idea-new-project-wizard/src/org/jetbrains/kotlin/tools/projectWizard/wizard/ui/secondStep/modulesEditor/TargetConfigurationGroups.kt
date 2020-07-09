@@ -95,7 +95,8 @@ object TargetConfigurationGroups {
             JvmTargetConfigurator,
             NATIVE.ALL,
             JS,
-            AndroidTargetConfigurator
+            AndroidTargetConfigurator,
+            HmppSourceSetConfigurator
         )
     )
 }

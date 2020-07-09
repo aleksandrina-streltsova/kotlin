@@ -75,8 +75,7 @@ class GradlePrinter(val dsl: GradleDsl, override val indent: Int = 4) : BuildFil
         assignee()
     }
 
-
-    inline fun getting(@NonNls name: String, @NonNls prefix: String?, body: () -> Unit = {}) {
+    private fun delegation(propertyDelegateName: String, @NonNls name: String, @NonNls prefix: String?, body: () -> Unit = {}) {
         when (dsl) {
             GradleDsl.GROOVY -> {
                 prefix?.let { +it; +"." }
@@ -85,11 +84,14 @@ class GradlePrinter(val dsl: GradleDsl, override val indent: Int = 4) : BuildFil
             GradleDsl.KOTLIN -> {
                 +"val $name by "
                 prefix?.let { +it; +"." }
-                +"getting"
+                +propertyDelegateName
             }
         }
         body()
     }
+
+    fun getting(@NonNls name: String, @NonNls prefix: String?, body: () -> Unit = {}) = delegation("getting", name, prefix, body)
+    fun creating(@NonNls name: String, @NonNls prefix: String?, body: () -> Unit = {}) = delegation("creating", name, prefix, body)
 
     val String.identifier
         get() = when (dsl) {

@@ -2,6 +2,7 @@ package org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem
 
 import org.jetbrains.kotlin.tools.projectWizard.ir.IR
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.BuildFilePrinter
+import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 import kotlin.reflect.KClass
 
 interface BuildSystemIR : IR {

@@ -7,13 +7,13 @@ import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.service.WizardKotlinVersion
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
+import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.GradleDependsOnRelationIR
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.gradle.GradlePlugin
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.isGradle
 import org.jetbrains.kotlin.tools.projectWizard.plugins.templates.TemplatesPlugin
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
-import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 import java.nio.file.Path
 
 data class ModulesToIrConversionData(
@@ -202,12 +202,14 @@ class ModulesToIRsConverter(
     ): TaskResult<List<BuildFileIR>> = with(data) {
         val modulePath = calculatePathForModule(module, state.parentPath)
         mutateProjectStructureByModuleConfigurator(module, modulePath)
-        val targetIrs = module.subModules.flatMap { subModule ->
+        // hmpp sourceSets must be defined after other sourceSets
+        val allSubModules = module.subModules.withAllSubModules().sortedBy { it.kind == ModuleKind.hmppSourceSet }
+        val targetIrs = allSubModules.filter { it.configurator is TargetConfigurator }.flatMap { subModule ->
             with(subModule.configurator as TargetConfigurator) { createTargetIrs(subModule) }
         }
 
-        val targetModuleIrs = module.subModules.map { target ->
-            createTargetModule(target, modulePath)
+        val targetModuleIrs = allSubModules.map { target ->
+            createTargetModule(module, target, modulePath)
         }
 
         return BuildFileIR(
@@ -218,25 +220,27 @@ class ModulesToIRsConverter(
                 targetModuleIrs,
                 persistentListOf()
             ),
-            module.subModules + module,
+            allSubModules + module,
             pomIr,
             buildPersistenceList {
                 +createBuildFileIRs(module, state)
-                module.subModules.forEach { +createBuildFileIRs(it, state) }
+                allSubModules.forEach { +createBuildFileIRs(it, state) }
             }
         ).also { buildFile ->
             moduleToBuildFile[module] = buildFile
-            module.subModules.forEach { subModule ->
+            allSubModules.forEach { subModule ->
                 moduleToBuildFile[subModule] = buildFile
             }
         }.asSingletonList().asSuccess()
 
     }
 
-    private fun Writer.createTargetModule(target: Module, modulePath: Path): MultiplatformModuleIR {
+    private fun Writer.createTargetModule(mppModule: Module, target: Module, modulePath: Path): MultiplatformModuleIR {
         mutateProjectStructureByModuleConfigurator(target, modulePath)
+        val commonModule: Module? = mppModule.subModules.firstOrNull { it.configurator == CommonTargetConfigurator }
         val sourcesetss = target.sourcesets.map { sourceset ->
-            val sourcesetName = target.name + sourceset.sourcesetType.name.capitalize()
+            val typeName = sourceset.sourcesetType.name.capitalize()
+            val sourcesetName = target.name + typeName
             val sourcesetIrs = buildList<BuildSystemIR> {
                 if (sourceset.sourcesetType == SourcesetType.main) {
                     addIfNotNull(
@@ -250,11 +254,25 @@ class ModulesToIRsConverter(
                         }
                     )
                 }
+                if (target.kind == ModuleKind.hmppSourceSet) {
+                    addIfNotNull(
+                        target.parent?.let { parent ->
+                            val parentName = if (parent.kind == ModuleKind.multiplatform) commonModule?.name else parent.name
+                            val parentSourceSetName = parentName?.let { it + typeName }
+                            GradleDependsOnRelationIR(null, parentSourceSetName)
+                        }
+                    )
+                    val childSourceSetNames = target.subModules.filter { it.kind != ModuleKind.hmppSourceSet }.map { it.name + typeName }
+                    for (childSourceSetName in childSourceSetNames) {
+                        +GradleDependsOnRelationIR(childSourceSetName, null)
+                    }
+                }
             }
             MultiplatformSourcesetIR(
                 sourceset.sourcesetType,
                 modulePath / Defaults.SRC_DIR / sourcesetName,
                 target.name,
+                target.kind == ModuleKind.hmppSourceSet,
                 sourcesetIrs.toPersistentList(),
                 sourceset
             )

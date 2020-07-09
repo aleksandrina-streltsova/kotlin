@@ -8,9 +8,11 @@ import com.intellij.ui.popup.PopupFactoryImpl
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import org.jetbrains.kotlin.tools.projectWizard.core.buildList
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*
+import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.withAllSubModules
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
+import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.topmostHmppSourcesetAncestor
 import org.jetbrains.kotlin.tools.projectWizard.wizard.ui.fullTextHtml
 import org.jetbrains.kotlin.tools.projectWizard.wizard.ui.icon
 import javax.swing.Icon
@@ -21,17 +23,27 @@ class CreateModuleOrTargetPopup private constructor(
     private val allowSinglepaltformJs: Boolean,
     private val allowAndroid: Boolean,
     private val allowIos: Boolean,
-    private val createTarget: (TargetConfigurator) -> Unit,
+    private val createTargetOrSourceSet: (ModuleConfigurator) -> Unit,
     private val createModule: (ModuleConfigurator) -> Unit
 ) {
 
     private fun TargetConfigurator.needToShow(): Boolean {
-        val allTargets = target?.subModules ?: return false
-        return canCoexistsWith(allTargets.map { it.configurator as TargetConfigurator })
+        val allTargetConfigurators = if (target?.kind == ModuleKind.hmppSourceSet) {
+            val topmostAncestor = target.topmostHmppSourcesetAncestor
+            topmostAncestor?.subModules?.withAllSubModules().orEmpty()
+        } else {
+            target?.subModules ?: return false
+        }.mapNotNull { it.configurator as? TargetConfigurator }
+        return if (target.kind == ModuleKind.hmppSourceSet) {
+            canCoexistInHmppSourceSetWith(allTargetConfigurators)
+        } else {
+            canCoexistsWith(allTargetConfigurators)
+        }
     }
 
     private fun DisplayableSettingItem.needToShow(): Boolean = when (this) {
         is TargetConfigurator -> needToShow()
+        is HmppSourceSetConfigurator -> true
         is TargetConfiguratorGroupWithSubItems -> subItems.any { it.needToShow() }
         else -> false
     }
@@ -81,7 +93,7 @@ class CreateModuleOrTargetPopup private constructor(
 
         override fun onChosen(selectedValue: DisplayableSettingItem?, finalChoice: Boolean): PopupStep<*>? {
             when {
-                finalChoice && selectedValue is TargetConfigurator -> createTarget(selectedValue)
+                finalChoice && selectedValue is ModuleConfigurator -> createTargetOrSourceSet(selectedValue)
                 selectedValue is TargetConfiguratorGroupWithSubItems ->
                     return ChooseTargetTypeStep(selectedValue, showTitle = false)
             }
@@ -89,10 +101,10 @@ class CreateModuleOrTargetPopup private constructor(
         }
     }
 
-    private fun create(): ListPopup? = when (target?.kind) {
-        ModuleKind.target -> null
-        ModuleKind.multiplatform -> ChooseTargetTypeStep(TargetConfigurationGroups.FIRST, showTitle = true)
-        else -> when {
+    private fun create(): ListPopup? = if (target?.kind == ModuleKind.multiplatform || target?.kind == ModuleKind.hmppSourceSet) {
+        ChooseTargetTypeStep(TargetConfigurationGroups.FIRST, showTitle = true)
+    } else {
+        when {
             allowMultiplatform || allowAndroid || allowIos -> ChooseModuleOrMppModuleStep()
             else -> {
                 createModule(JvmSinglePlatformModuleConfigurator)
@@ -108,7 +120,7 @@ class CreateModuleOrTargetPopup private constructor(
             allowSinglepaltformJs: Boolean,
             allowAndroid: Boolean,
             allowIos: Boolean,
-            createTarget: (TargetConfigurator) -> Unit,
+            createTargetOrSourceSet: (ModuleConfigurator) -> Unit,
             createModule: (ModuleConfigurator) -> Unit
         ) = CreateModuleOrTargetPopup(
             target = target,
@@ -116,7 +128,7 @@ class CreateModuleOrTargetPopup private constructor(
             allowSinglepaltformJs = allowSinglepaltformJs,
             allowAndroid = allowAndroid,
             allowIos = allowIos,
-            createTarget = createTarget,
+            createTargetOrSourceSet = createTargetOrSourceSet,
             createModule = createModule
         ).create()
     }

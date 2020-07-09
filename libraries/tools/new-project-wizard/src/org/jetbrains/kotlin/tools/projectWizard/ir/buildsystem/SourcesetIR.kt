@@ -34,22 +34,31 @@ data class MultiplatformSourcesetIR(
     override val sourcesetType: SourcesetType,
     override val path: Path,
     val targetName: String,
+    val targetIsHmppSourceSet: Boolean,
     override val irs: PersistentList<BuildSystemIR>,
     override val original: Sourceset
 ) : SourcesetIR(), IrsOwner, GradleIR {
     override fun withReplacedIrs(irs: PersistentList<BuildSystemIR>): MultiplatformSourcesetIR = copy(irs = irs)
 
-    override fun GradlePrinter.renderGradle() = getting(sourcesetName, prefix = null) {
-        val dependencies = irsOfType<DependencyIR>()
-        val needBody = dependencies.isNotEmpty() || dsl == GradlePrinter.GradleDsl.GROOVY
-        if (needBody) {
-            +" "
-            inBrackets {
-                if (dependencies.isNotEmpty()) {
-                    indent()
-                    sectionCall("dependencies", dependencies)
+    override fun GradlePrinter.renderGradle() {
+        val body: () -> Unit = {
+            val (dependencies, other) = irs.partition { it is DependencyIR }
+            val needBody = irs.isNotEmpty() || dsl == GradlePrinter.GradleDsl.GROOVY
+            if (needBody) {
+                +" "
+                inBrackets {
+                    if (dependencies.isNotEmpty()) {
+                        indent()
+                        sectionCall("dependencies", dependencies)
+                    }
+                    other.listNl()
                 }
             }
+        }
+        if (targetIsHmppSourceSet) {
+            creating(sourcesetName, prefix = null, body)
+        } else {
+            getting(sourcesetName, prefix = null, body)
         }
     }
 }

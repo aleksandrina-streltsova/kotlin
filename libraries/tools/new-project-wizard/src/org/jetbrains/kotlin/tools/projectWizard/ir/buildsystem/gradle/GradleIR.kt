@@ -151,6 +151,17 @@ data class GradleBinaryExpressionIR(val left: BuildSystemIR, val op: String, val
     }
 }
 
+data class GradleDependsOnRelationIR(
+    val dependantSourceSet: String?,
+    val requisiteSourceSet: String?
+) : GradleIR {
+    override fun GradlePrinter.renderGradle() {
+        call((dependantSourceSet?.let { "$it." } ?: "") + "dependsOn") {
+            +(requisiteSourceSet ?: if (dsl == GradlePrinter.GradleDsl.KOTLIN) "this" else "it")
+        }
+    }
+}
+
 interface BuildScriptIR : BuildSystemIR
 
 data class BuildScriptDependencyIR(val dependencyIR: BuildSystemIR) : BuildScriptIR, BuildSystemIR by dependencyIR

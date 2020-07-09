@@ -30,6 +30,7 @@ interface TargetConfigurator : ModuleConfiguratorWithModuleType {
     override val moduleKind get() = ModuleKind.target
 
     fun canCoexistsWith(other: List<TargetConfigurator>): Boolean = true
+    fun canCoexistInHmppSourceSetWith(other: List<TargetConfigurator>): Boolean = canCoexistsWith(other)
 
     fun Reader.createTargetIrs(module: Module): List<BuildSystemIR>
     fun createInnerTargetIrs(
@@ -70,7 +71,10 @@ internal fun Module.createTargetAccessIr(moduleSubType: ModuleSubType) =
     )
 
 
-interface JsTargetConfigurator : JSConfigurator, TargetConfigurator, SingleCoexistenceTargetConfigurator, ModuleConfiguratorWithSettings
+interface JsTargetConfigurator : JSConfigurator, TargetConfigurator, SingleCoexistenceTargetConfigurator, ModuleConfiguratorWithSettings {
+    override fun canCoexistInHmppSourceSetWith(other: List<TargetConfigurator>): Boolean =
+        other.none { it is JsTargetConfigurator }
+}
 
 enum class JsTargetKind(override val text: String) : DisplayableSettingItem {
     LIBRARY(KotlinNewProjectWizardBundle.message("module.configurator.js.target.settings.kind.library")),
@@ -129,6 +133,7 @@ object CommonTargetConfigurator : TargetConfiguratorWithTests(), SimpleTargetCon
     override val moduleSubType = ModuleSubType.common
     override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.common")
 
+    override fun canCoexistInHmppSourceSetWith(other: List<TargetConfigurator>): Boolean = false
     override fun defaultTestFramework(): KotlinTestFramework = KotlinTestFramework.COMMON
 }
 
@@ -140,6 +145,9 @@ object JvmTargetConfigurator : JvmModuleConfigurator,
     override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.jvm")
 
     override fun defaultTestFramework(): KotlinTestFramework = KotlinTestFramework.JUNIT4
+
+    override fun canCoexistInHmppSourceSetWith(other: List<TargetConfigurator>): Boolean =
+        other.none { it == this || it == AndroidTargetConfigurator }
 
     override fun createInnerTargetIrs(
         reader: Reader,

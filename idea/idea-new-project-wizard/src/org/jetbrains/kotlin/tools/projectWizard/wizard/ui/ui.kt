@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.tools.projectWizard.core.entity.ValidationResult
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleSubType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleType
-import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ProjectKind
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
@@ -98,6 +97,7 @@ val ModuleKind.icon: Icon
         ModuleKind.singleplatformJs -> KotlinIcons.Wizard.JS
         ModuleKind.singleplatformJvm -> KotlinIcons.Wizard.JVM
         ModuleKind.target -> AllIcons.Nodes.Module
+        ModuleKind.hmppSourceSet -> KotlinIcons.SMALL_LOGO
         ModuleKind.singleplatformAndroid -> KotlinIcons.Wizard.ANDROID
     }
 
