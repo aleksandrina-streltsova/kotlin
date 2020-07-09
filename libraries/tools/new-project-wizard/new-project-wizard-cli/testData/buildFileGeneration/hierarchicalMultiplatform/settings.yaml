@@ -1,0 +1,37 @@
+kotlin:
+  projectKind: Multiplatform
+  modules:
+    - type: multiplatform
+      name: a
+      subModules:
+        - type: commonTarget
+          name: common
+        - type:
+            name: jsBrowser
+            testFramework: JS
+          name: js
+        - type: sourceSet
+          name: shared
+          subModules:
+            - type:
+                targetJvmVersion: "1.8"
+                name: jvmTarget
+                testFramework: JUNIT4
+              name: jvm
+            - type: sourceSet
+              name: native
+              subModules:
+                - type: sourceSet
+                  name: nativeDarwin
+                  subModules:
+                    - type: macosX64Target
+                      name: macosX64
+                    - type: iosX64Target
+                      name: iosX64
+                - type: sourceSet
+                  name: nativeOther
+                  subModules:
+                    - type: linuxX64Target
+                      name: linuxX64
+                    - type: mingwX64Target
+                      name: mingwX64

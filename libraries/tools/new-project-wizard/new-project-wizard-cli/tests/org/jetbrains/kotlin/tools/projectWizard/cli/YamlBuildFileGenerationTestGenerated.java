@@ -33,6 +33,11 @@ public class YamlBuildFileGenerationTestGenerated extends AbstractYamlBuildFileG
         runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
     }
 
+    @TestMetadata("hierarchicalMultiplatform")
+    public void testHierarchicalMultiplatform() throws Exception {
+        runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+    }
+
     @TestMetadata("jsNodeAndBrowserTargets")
     public void testJsNodeAndBrowserTargets() throws Exception {
         runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/jsNodeAndBrowserTargets/");

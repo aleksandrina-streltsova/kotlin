@@ -35,6 +35,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
+        @TestMetadata("hierarchicalMultiplatform")
+        public void testHierarchicalMultiplatform() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+        }
+
         @TestMetadata("jsNodeAndBrowserTargets")
         public void testJsNodeAndBrowserTargets() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/jsNodeAndBrowserTargets/");
@@ -103,6 +108,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
+        @TestMetadata("hierarchicalMultiplatform")
+        public void testHierarchicalMultiplatform() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+        }
+
         @TestMetadata("jsNodeAndBrowserTargets")
         public void testJsNodeAndBrowserTargets() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/jsNodeAndBrowserTargets/");
@@ -169,6 +179,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
         @TestMetadata("android")
         public void testAndroid() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
+        }
+
+        @TestMetadata("hierarchicalMultiplatform")
+        public void testHierarchicalMultiplatform() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
         }
 
         @TestMetadata("jsNodeAndBrowserTargets")

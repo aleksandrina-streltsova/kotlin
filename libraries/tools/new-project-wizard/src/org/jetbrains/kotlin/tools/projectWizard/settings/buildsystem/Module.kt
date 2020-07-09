@@ -175,7 +175,7 @@ val Module.topmostHmppSourcesetAncestor: Module?
     get() = if (kind == ModuleKind.hmppSourceSet) {
         var hmppSourceSetAncestor: Module? = this
         while (hmppSourceSetAncestor?.parent?.kind == ModuleKind.hmppSourceSet) {
-            hmppSourceSetAncestor = this.parent
+            hmppSourceSetAncestor = hmppSourceSetAncestor.parent
         }
         hmppSourceSetAncestor
     } else null

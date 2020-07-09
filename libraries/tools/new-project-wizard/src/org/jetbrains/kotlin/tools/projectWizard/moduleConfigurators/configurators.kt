@@ -141,7 +141,7 @@ val ModuleType.defaultTarget
     }
 
 object HmppSourceSetConfigurator : ModuleConfigurator {
-    override val id: String = "HMPP Module"
+    override val id: String = "sourceSet"
     override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.sourceset")
     override val suggestedModuleName: String = "sourceSet"
 

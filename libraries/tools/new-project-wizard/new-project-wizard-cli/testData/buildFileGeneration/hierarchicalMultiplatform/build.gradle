@@ -1,0 +1,137 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN_VERSION'
+}
+group = 'testGroupId'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/kotlin/kotlin-dev'
+    }
+}
+kotlin {
+    js {
+        browser {
+            binaries.executable()
+            webpackTask {
+                cssSupport.enabled = true
+            }
+            runTask {
+                cssSupport.enabled = true
+            }
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    webpackConfig.cssSupport.enabled = true
+                }
+            }
+        }
+    }
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = '1.8'
+        }
+    }
+    macosX64()
+    iosX64 {
+        binaries {
+            framework {
+                baseName = 'nativeDarwin'
+            }
+        }
+    }
+    linuxX64()
+    mingwX64()
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+        jsMain {
+            dependencies {
+                implementation kotlin('stdlib-js')
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation kotlin('test-js')
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation kotlin('stdlib-jdk8')
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation kotlin('test-junit')
+            }
+        }
+        macosX64Main {
+
+        }
+        macosX64Test {
+
+        }
+        iosX64Main {
+
+        }
+        iosX64Test {
+
+        }
+        linuxX64Main {
+
+        }
+        linuxX64Test {
+
+        }
+        mingwX64Main {
+
+        }
+        mingwX64Test {
+
+        }
+        sharedMain {
+            dependsOn commonMain
+            jvmMain.dependsOn it
+        }
+        sharedTest {
+            dependsOn commonTest
+            jvmTest.dependsOn it
+        }
+        nativeMain {
+            dependsOn sharedMain
+        }
+        nativeTest {
+            dependsOn sharedTest
+        }
+        nativeDarwinMain {
+            dependsOn nativeMain
+            macosX64Main.dependsOn it
+            iosX64Main.dependsOn it
+        }
+        nativeDarwinTest {
+            dependsOn nativeTest
+            macosX64Test.dependsOn it
+            iosX64Test.dependsOn it
+        }
+        nativeOtherMain {
+            dependsOn nativeMain
+            linuxX64Main.dependsOn it
+            mingwX64Main.dependsOn it
+        }
+        nativeOtherTest {
+            dependsOn nativeTest
+            linuxX64Test.dependsOn it
+            mingwX64Test.dependsOn it
+        }
+    }
+}

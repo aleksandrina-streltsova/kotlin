@@ -44,7 +44,7 @@ abstract class GradlePlugin(context: Context) : BuildSystemPlugin(context) {
                     ),
                     StructurePlugin::projectPath.settingValue,
                     mapOf(
-                        "properties" to GradlePlugin::gradleProperties.propertyValue
+                        "properties" to GradlePlugin::gradleProperties.propertyValue.distinct()
                     )
                 )
             )
