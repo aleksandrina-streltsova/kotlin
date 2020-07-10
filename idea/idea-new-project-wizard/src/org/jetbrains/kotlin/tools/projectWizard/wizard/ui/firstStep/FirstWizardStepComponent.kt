@@ -1,6 +1,7 @@
 package org.jetbrains.kotlin.tools.projectWizard.wizard.ui.firstStep
 
 import com.intellij.icons.AllIcons
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.ide.util.projectWizard.JavaModuleBuilder
 import com.intellij.openapi.roots.ui.configuration.JdkComboBox
 import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel
@@ -184,18 +185,25 @@ class KotlinJpsRuntimeComponent(ideWizard: IdeWizard) : DynamicComponent(ideWiza
 
 private class JdkComponent(ideWizard: IdeWizard) : TitledComponent(ideWizard.context) {
     private val javaModuleBuilder = JavaModuleBuilder()
-    private val jdkComboBox = JdkComboBox(
-        ProjectSdksModel().apply { reset(null) },
-        Condition(javaModuleBuilder::isSuitableSdkType)
-    ).apply {
+    private val sdksModel = ProjectSdksModel().apply { reset(null) }
+    private val jdkComboBox = JdkComboBox(sdksModel, Condition(javaModuleBuilder::isSuitableSdkType)).apply {
+        PropertiesComponent.getInstance().getValue(selectedJdkProperty)
+            ?.let { sdkName -> sdksModel.findSdk(sdkName) }
+            ?.takeIf { sdk -> javaModuleBuilder.isSuitableSdkType(sdk.sdkType) }
+            ?.let { selectedJdk = it }
         ideWizard.jdk = selectedJdk
         addActionListener {
+            ideWizard.context.read { PropertiesComponent.getInstance().setValue(selectedJdkProperty, selectedJdk?.name) }
             ideWizard.jdk = selectedJdk
         }
     }
 
     override val title: String = KotlinNewProjectWizardUIBundle.message("additional.buildsystem.settings.project.jdk")
     override val component: JComponent = jdkComboBox
+
+    companion object {
+        const val selectedJdkProperty: String = "NewKotlinWizard.selected.jdk"
+    }
 }
 
 private class KotlinRuntimeComponentComponent(ideWizard: IdeWizard) : TitledComponent(ideWizard.context) {
