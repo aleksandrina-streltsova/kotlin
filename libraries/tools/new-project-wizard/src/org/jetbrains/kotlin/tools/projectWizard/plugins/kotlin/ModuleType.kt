@@ -28,6 +28,9 @@ enum class ModuleSubType(val moduleType: ModuleType) {
     android(ModuleType.android),
     androidNativeArm32(ModuleType.native), androidNativeArm64(ModuleType.native),
     iosArm32(ModuleType.native), iosArm64(ModuleType.native), iosX64(ModuleType.native),
+    watchosArm32(ModuleType.native), watchosArm64(ModuleType.native), watchosX86(ModuleType.native),
+    tvosArm64(ModuleType.native), tvosX64(ModuleType.native),
+    wasm32(ModuleType.native),
     linuxArm32Hfp(ModuleType.native), linuxMips32(ModuleType.native), linuxMipsel32(ModuleType.native),
     linuxX64(ModuleType.native),
     macosX64(ModuleType.native),
@@ -35,8 +38,17 @@ enum class ModuleSubType(val moduleType: ModuleType) {
     common(ModuleType.common)
 }
 
-val ModuleSubType.isIOS: Boolean
-    get() = this in EnumSet.of(ModuleSubType.iosX64, ModuleSubType.iosArm32, ModuleSubType.iosArm64)
+val ModuleSubType.isIOSBased: Boolean
+    get() = this in EnumSet.of(
+        ModuleSubType.iosX64,
+        ModuleSubType.iosArm32,
+        ModuleSubType.iosArm64,
+        ModuleSubType.watchosX86,
+        ModuleSubType.watchosArm32,
+        ModuleSubType.watchosArm64,
+        ModuleSubType.tvosX64,
+        ModuleSubType.tvosArm64
+    )
 
 val ModuleSubType.isNativeDesktop: Boolean
     get() = this in EnumSet.of(

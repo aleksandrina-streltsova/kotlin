@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import org.jetbrains.kotlin.tools.projectWizard.core.Reader
 
-import org.jetbrains.kotlin.tools.projectWizard.core.buildList
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildSystemIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.*
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatform.NonDefaultTargetConfigurationIR
@@ -27,9 +26,9 @@ class RealNativeTargetConfigurator private constructor(
         get() = moduleSubType.isNativeDesktop
 
     override val isIosTarget: Boolean
-        get() = moduleSubType.isIOS
+        get() = moduleSubType.isIOSBased
 
-    override fun createInnerTargetIrs(reader: Reader, module: Module): List<BuildSystemIR> = if (moduleSubType.isIOS) irsList {
+    override fun createInnerTargetIrs(reader: Reader, module: Module): List<BuildSystemIR> = if (moduleSubType.isIOSBased) irsList {
         "binaries" {
             "framework"  {
                 "baseName" assign const(module.parent!!.name)

@@ -15,7 +15,6 @@ import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.*
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.isGradle
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConversionData
-import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.isIOS
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 import org.jetbrains.kotlin.tools.projectWizard.plugins.projectPath
 import org.jetbrains.kotlin.tools.projectWizard.plugins.templates.TemplatesPlugin

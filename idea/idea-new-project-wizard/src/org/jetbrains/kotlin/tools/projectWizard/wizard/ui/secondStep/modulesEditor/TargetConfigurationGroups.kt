@@ -65,6 +65,27 @@ object TargetConfigurationGroups {
             )
         )
 
+        val WATCHOS = FinalTargetConfiguratorGroup(
+            KotlinNewProjectWizardBundle.message("module.configuration.group.watchos"),
+            ModuleType.native,
+            KotlinIcons.Wizard.MAC_OS,
+            listOf(
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosArm32),
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosArm64),
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosX86)
+            )
+        )
+
+        val TVOS = FinalTargetConfiguratorGroup(
+            KotlinNewProjectWizardBundle.message("module.configuration.group.tvos"),
+            ModuleType.native,
+            KotlinIcons.Wizard.MAC_OS,
+            listOf(
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.tvosArm64),
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.tvosX64)
+            )
+        )
+
         val ANDROID_NATIVE = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.android.native"),
             ModuleType.native,
@@ -72,6 +93,15 @@ object TargetConfigurationGroups {
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.androidNativeArm64),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.androidNativeArm32)
+            )
+        )
+
+        val WEB_ASSEMBLY = FinalTargetConfiguratorGroup(
+            KotlinNewProjectWizardBundle.message("module.configuration.group.web.assembly"),
+            ModuleType.native,
+            KotlinIcons.Wizard.NATIVE,
+            listOf(
+                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.wasm32)
             )
         )
 
@@ -84,7 +114,10 @@ object TargetConfigurationGroups {
                 WINDOWS,
                 MAC,
                 IOS,
-                ANDROID_NATIVE
+                WATCHOS,
+                TVOS,
+                ANDROID_NATIVE,
+                WEB_ASSEMBLY
             )
         )
     }
