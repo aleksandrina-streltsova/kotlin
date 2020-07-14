@@ -2,6 +2,7 @@ package org.jetbrains.kotlin.tools.projectWizard.wizard.ui.secondStep.modulesEdi
 
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.ModuleConfigurator
+import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.SourceSetTemplateConfigurator
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.TargetConfigurator
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.withAllSubModules
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
@@ -19,20 +20,14 @@ class NewModuleCreator {
 
     private fun newTargetOrSourceSet(
         configurator: ModuleConfigurator,
-        allTargets: List<Module>
-    ): Module = MultiplatformTargetModule(
-        suggestName(
-            configurator.suggestedModuleName ?: if (configurator is TargetConfigurator) configurator.moduleType.name else "module",
-            allTargets
-        ),
-        configurator,
-        SourcesetType.values().map { sourcesetType ->
-            Sourceset(
-                sourcesetType,
-                dependencies = emptyList()
-            )
+        allSubModules: List<Module>
+    ): Module {
+        val name = configurator.suggestedModuleName ?: if (configurator is TargetConfigurator) configurator.moduleType.name else "module"
+        return when (configurator) {
+            is SourceSetTemplateConfigurator -> configurator.createSourceSetTemplate(name, allSubModules, this::suggestName)
+            else -> MultiplatformTargetModule(suggestName(name, allSubModules), configurator, createDefaultSourcesets())
         }
-    )
+    }
 
     fun create(
         target: Module?,

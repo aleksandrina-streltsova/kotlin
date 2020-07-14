@@ -14,7 +14,6 @@ import javax.swing.Icon
 interface TargetConfiguratorGroup
 
 interface DisplayableTargetConfiguratorGroup : TargetConfiguratorGroup, DisplayableSettingItem {
-    val moduleType: ModuleType
     val icon: Icon
 }
 
@@ -24,7 +23,7 @@ interface TargetConfiguratorGroupWithSubItems : TargetConfiguratorGroup {
 
 data class StepTargetConfiguratorGroup(
     @Nls override val text: String,
-    override val moduleType: ModuleType,
+    val moduleType: ModuleType,
     override val subItems: List<DisplayableSettingItem>
 ) : DisplayableTargetConfiguratorGroup, TargetConfiguratorGroupWithSubItems {
     override val icon: Icon get() = moduleType.icon
@@ -32,7 +31,6 @@ data class StepTargetConfiguratorGroup(
 
 data class FinalTargetConfiguratorGroup(
     @Nls override val text: String,
-    override val moduleType: ModuleType,
     override val icon: Icon,
     override val subItems: List<DisplayableSettingItem>
 ) : DisplayableTargetConfiguratorGroup, TargetConfiguratorGroupWithSubItems

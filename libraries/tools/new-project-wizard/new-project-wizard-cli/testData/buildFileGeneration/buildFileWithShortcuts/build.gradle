@@ -1,0 +1,90 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN_VERSION'
+}
+group = 'testGroupId'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/kotlin/kotlin-dev'
+    }
+}
+kotlin {
+    iosArm64('iosArm64_1') {
+        binaries {
+            framework {
+                baseName = 'ios_1'
+            }
+        }
+    }
+    iosX64('iosX64_1') {
+        binaries {
+            framework {
+                baseName = 'ios_1'
+            }
+        }
+    }
+    watchos {
+        binaries {
+            framework {
+                baseName = 'watchos'
+            }
+        }
+    }
+    tvos {
+        binaries {
+            framework {
+                baseName = 'tvos'
+            }
+        }
+    }
+    ios {
+        binaries {
+            framework {
+                baseName = 'ios'
+            }
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+        iosArm64_1Main {
+
+        }
+        iosArm64_1Test {
+
+        }
+        iosX64_1Main {
+
+        }
+        iosX64_1Test {
+
+        }
+        sharedMain {
+            dependsOn commonMain
+        }
+        sharedTest {
+            dependsOn commonTest
+        }
+        ios_1Main {
+            dependsOn sharedMain
+            iosArm64_1Main.dependsOn it
+            iosX64_1Main.dependsOn it
+        }
+        ios_1Test {
+            dependsOn sharedTest
+            iosArm64_1Test.dependsOn it
+            iosX64_1Test.dependsOn it
+        }
+    }
+}

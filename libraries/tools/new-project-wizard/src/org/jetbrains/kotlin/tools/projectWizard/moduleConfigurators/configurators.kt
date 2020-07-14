@@ -1,6 +1,7 @@
 package org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators
 
 
+import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import org.jetbrains.kotlin.tools.projectWizard.core.*
@@ -8,16 +9,18 @@ import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.ModuleConfi
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildSystemIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.KotlinBuildSystemPluginIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.*
+import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatform.DefaultTargetConfigurationIR
+import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatform.TargetAccessIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.maven.MavenPropertyIR
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.gradle.GradlePlugin
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.isGradle
+import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleSubType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConversionData
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
-import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
-import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
+import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
 import java.nio.file.Path
 
 interface JvmModuleConfigurator : ModuleConfiguratorWithTests {
@@ -85,8 +88,12 @@ object JvmSinglePlatformModuleConfigurator : JvmModuleConfigurator,
     ModuleConfiguratorWithModuleType {
     override val moduleType get() = ModuleType.jvm
     override val moduleKind: ModuleKind get() = ModuleKind.singleplatformJvm
-    @NonNls override val suggestedModuleName = "jvm"
-    @NonNls override val id = "JVM Module"
+
+    @NonNls
+    override val suggestedModuleName = "jvm"
+
+    @NonNls
+    override val id = "JVM Module"
     override val text = KotlinNewProjectWizardBundle.message("module.configurator.jvm")
 
 
@@ -154,4 +161,86 @@ object HmppSourceSetConfigurator : ModuleConfigurator {
         modulePath: Path
     ): TaskResult<Unit> =
         GradlePlugin::gradleProperties.addValues("kotlin.mpp.enableGranularSourceSetsMetadata" to "true")
+
+    fun createSourceSetIrs(module: Module): List<BuildSystemIR> = buildList {
+        moduleIsSourceSetWithShortcut(module)?.let { shortcut ->
+            +DefaultTargetConfigurationIR(
+                TargetAccessIR(null, shortcut.name, module.name.takeIf { it != shortcut.name }),
+                irsList {
+                    "binaries" {
+                        "framework"  {
+                            "baseName" assign const(module.name)
+                        }
+                    }
+                }.toPersistentList()
+            )
+        }
+    }
 }
+
+abstract class SourceSetTemplateConfigurator : ModuleConfigurator {
+    override val moduleKind: ModuleKind = ModuleKind.hmppSourceSet
+    override val id: String = "sourceSet"
+    abstract val subModuleTypes: List<ModuleSubType>
+
+    fun createSourceSetTemplate(name: String, modules: List<Module>, suggestName: (String, List<Module>) -> String): Module {
+        fun createSubModule(subType: ModuleSubType): Module {
+            val configurator = RealNativeTargetConfigurator.configuratorsByModuleType.getValue(subType)
+            val subModuleName = suggestName(configurator.suggestedModuleName ?: configurator.moduleType.name, modules)
+            return Module(subModuleName, configurator, null, createDefaultSourcesets(), emptyList())
+        }
+        return Module(
+            suggestName(name, modules),
+            HmppSourceSetConfigurator,
+            null,
+            createDefaultSourcesets(),
+            subModuleTypes.map { createSubModule(it) }
+        )
+    }
+}
+
+@Suppress("EnumEntryName", "SpellCheckingInspection")
+enum class Shortcut(val targetConfigurators: Set<TargetConfigurator>) {
+    ios(RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.iosArm64, ModuleSubType.iosX64))),
+    watchos(
+        RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(
+            listOf(ModuleSubType.watchosArm32, ModuleSubType.watchosArm64, ModuleSubType.watchosX86)
+        )
+    ),
+    tvos(RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64)))
+}
+
+object EmptySourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
+    override val suggestedModuleName: String? = "sourceSet"
+    override val text: String = "Empty sourceSet"
+    override val subModuleTypes: List<ModuleSubType> = emptyList()
+}
+
+object IOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
+    override val suggestedModuleName: String? = "ios"
+    override val text: String = "iOS sourceSet"
+    override val subModuleTypes: List<ModuleSubType> = listOf(ModuleSubType.iosArm64, ModuleSubType.iosX64)
+}
+
+object WatchOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
+    override val suggestedModuleName: String? = "watchos"
+    override val text: String = "watchOS sourceSet"
+    override val subModuleTypes: List<ModuleSubType> =
+        listOf(ModuleSubType.watchosArm32, ModuleSubType.watchosArm64, ModuleSubType.watchosX86)
+}
+
+object TvOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
+    override val suggestedModuleName: String? = "tvos"
+    override val text: String = "tvOS sourceSet"
+    override val subModuleTypes: List<ModuleSubType> = listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64)
+}
+
+// module is a sourceSet that can be created with shortcut
+fun moduleIsSourceSetWithShortcut(module: Module): Shortcut? = module
+    .takeIf { it.kind == ModuleKind.hmppSourceSet && module.parent?.kind == ModuleKind.multiplatform }
+    ?.subModules?.map { it.configurator }?.toSet()
+    ?.let { subModuleConfigurators ->
+        Shortcut.values().firstOrNull { shortcut -> shortcut.targetConfigurators == subModuleConfigurators }
+    }
+
+fun moduleIsPartOfSourceSetWithShortcut(module: Module): Boolean = module.parent?.let { moduleIsSourceSetWithShortcut(it) != null } ?: false

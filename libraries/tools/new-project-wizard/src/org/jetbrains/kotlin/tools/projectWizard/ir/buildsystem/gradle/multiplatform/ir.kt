@@ -18,11 +18,12 @@ interface MultiplatformIR : GradleIR, KotlinIR
 interface TargetIR : MultiplatformIR
 
 data class TargetAccessIR(
-    val type: ModuleSubType,
+    val type: ModuleSubType?,
+    val name: String,
     val nonDefaultName: String? // `null` stands for default target name
 ) : TargetIR {
     override fun GradlePrinter.renderGradle() {
-        +type.toString()
+        +name
         par {
             nonDefaultName?.let { +it.quotified }
         }
@@ -46,7 +47,7 @@ data class DefaultTargetConfigurationIR(
     override val irs: PersistentList<BuildSystemIR>
 ) : TargetConfigurationIR {
     override val targetName: String
-        get() = targetAccess.nonDefaultName ?: targetAccess.type.name
+        get() = targetAccess.nonDefaultName ?: targetAccess.name
 
     constructor(targetAccess: TargetAccessIR, irs: IRsListBuilderFunction)
             : this(targetAccess, irs.build().toPersistentList())
@@ -55,7 +56,7 @@ data class DefaultTargetConfigurationIR(
         copy(irs = irs)
 
     override fun GradlePrinter.renderGradle() {
-        +targetAccess.type.toString()
+        +targetAccess.name
         if (irs.isEmpty() || targetAccess.nonDefaultName != null) par {
             targetAccess.nonDefaultName?.let { +it.quotified }
         }

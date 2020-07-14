@@ -205,13 +205,19 @@ class ModulesToIRsConverter(
         mutateProjectStructureByModuleConfigurator(module, modulePath)
         // hmpp sourceSets must be defined after other sourceSets
         val allSubModules = module.subModules.withAllSubModules().sortedBy { it.kind == ModuleKind.hmppSourceSet }
-        val targetIrs = allSubModules.filter { it.configurator is TargetConfigurator }.flatMap { subModule ->
-            with(subModule.configurator as TargetConfigurator) { createTargetIrs(subModule) }
+        val targetIrs = allSubModules.flatMap { subModule ->
+            when {
+                moduleIsSourceSetWithShortcut(subModule) != null -> with(subModule.configurator as HmppSourceSetConfigurator) {
+                    createSourceSetIrs(subModule)
+                }
+                moduleIsPartOfSourceSetWithShortcut(subModule) || subModule.kind == ModuleKind.hmppSourceSet -> emptyList()
+                else -> with(subModule.configurator as TargetConfigurator) { createTargetIrs(subModule) }
+            }
         }
 
-        val targetModuleIrs = allSubModules.map { target ->
-            createTargetModule(module, target, modulePath)
-        }
+        val targetModuleIrs = allSubModules
+            .filter { !moduleIsPartOfSourceSetWithShortcut(it) && moduleIsSourceSetWithShortcut(it) == null }
+            .map { target -> createTargetModule(module, target, modulePath) }
 
         return BuildFileIR(
             projectName,

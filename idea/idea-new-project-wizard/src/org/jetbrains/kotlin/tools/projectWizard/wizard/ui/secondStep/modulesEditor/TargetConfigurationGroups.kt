@@ -14,7 +14,6 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleType
 object TargetConfigurationGroups {
     val JS = FinalTargetConfiguratorGroup(
         ModuleType.js.projectTypeName,
-        ModuleType.js,
         KotlinIcons.Wizard.JS,
         listOf(
             JsBrowserTargetConfigurator,
@@ -25,7 +24,6 @@ object TargetConfigurationGroups {
     object NATIVE {
         val LINUX = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.linux"),
-            ModuleType.native,
             KotlinIcons.Wizard.LINUX,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.linuxX64),
@@ -37,7 +35,6 @@ object TargetConfigurationGroups {
 
         val WINDOWS = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.windows.mingw"),
-            ModuleType.native,
             KotlinIcons.Wizard.WINDOWS,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.mingwX64),
@@ -47,7 +44,6 @@ object TargetConfigurationGroups {
 
         val MAC = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.macos"),
-            ModuleType.native,
             KotlinIcons.Wizard.MAC_OS,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.macosX64)
@@ -56,7 +52,6 @@ object TargetConfigurationGroups {
 
         val IOS = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.ios"),
-            ModuleType.native,
             KotlinIcons.Wizard.IOS,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.iosArm32),
@@ -67,7 +62,6 @@ object TargetConfigurationGroups {
 
         val WATCHOS = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.watchos"),
-            ModuleType.native,
             KotlinIcons.Wizard.MAC_OS,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosArm32),
@@ -78,7 +72,6 @@ object TargetConfigurationGroups {
 
         val TVOS = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.tvos"),
-            ModuleType.native,
             KotlinIcons.Wizard.MAC_OS,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.tvosArm64),
@@ -88,7 +81,6 @@ object TargetConfigurationGroups {
 
         val ANDROID_NATIVE = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.android.native"),
-            ModuleType.native,
             KotlinIcons.Wizard.ANDROID,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.androidNativeArm64),
@@ -98,7 +90,6 @@ object TargetConfigurationGroups {
 
         val WEB_ASSEMBLY = FinalTargetConfiguratorGroup(
             KotlinNewProjectWizardBundle.message("module.configuration.group.web.assembly"),
-            ModuleType.native,
             KotlinIcons.Wizard.NATIVE,
             listOf(
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.wasm32)
@@ -122,6 +113,16 @@ object TargetConfigurationGroups {
         )
     }
 
+    val SOURCE_SET = FinalTargetConfiguratorGroup(
+        KotlinNewProjectWizardBundle.message("module.configuration.group.sourceset"),
+        KotlinIcons.SMALL_LOGO,
+        listOf(
+            IOSSourceSetTemplateConfigurator,
+            WatchOSSourceSetTemplateConfigurator,
+            TvOSSourceSetTemplateConfigurator,
+            EmptySourceSetTemplateConfigurator
+        )
+    )
     val FIRST = FirstStepTargetConfiguratorGroup(
         listOf(
             CommonTargetConfigurator,
@@ -129,7 +130,7 @@ object TargetConfigurationGroups {
             NATIVE.ALL,
             JS,
             AndroidTargetConfigurator,
-            HmppSourceSetConfigurator
+            SOURCE_SET
         )
     )
 }

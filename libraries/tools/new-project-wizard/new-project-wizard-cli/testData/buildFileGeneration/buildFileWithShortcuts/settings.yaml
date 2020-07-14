@@ -1,0 +1,41 @@
+kotlin:
+  projectKind: Multiplatform
+  modules:
+    - type: multiplatform
+      name: a
+      subModules:
+        - type: commonTarget
+          name: common
+        - type: sourceSet
+          name: watchos
+          subModules:
+            - type: watchosArm32Target
+              name: watchosArm32
+            - type: watchosArm64Target
+              name: watchosArm64
+            - type: watchosX86Target
+              name: watchosX86
+        - type: sourceSet
+          name: tvos
+          subModules:
+            - type: tvosArm64Target
+              name: tvosArm64
+            - type: tvosX64Target
+              name: tvosX64
+        - type: sourceSet
+          name: ios
+          subModules:
+            - type: iosArm64Target
+              name: iosArm64
+            - type: iosX64Target
+              name: iosX64
+        - type: sourceSet
+          name: shared
+          subModules:
+            - type: sourceSet
+              name: ios_1
+              subModules:
+                  - type: iosArm64Target
+                    name: iosArm64_1
+                  - type: iosX64Target
+                    name: iosX64_1

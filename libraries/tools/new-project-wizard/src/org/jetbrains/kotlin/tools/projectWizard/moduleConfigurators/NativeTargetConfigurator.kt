@@ -42,6 +42,8 @@ class RealNativeTargetConfigurator private constructor(
             .map(::RealNativeTargetConfigurator)
 
         val configuratorsByModuleType = configurators.associateBy { it.moduleSubType }
+        fun getConfiguratorsByModuleTypes(moduleTypes: List<ModuleSubType>): Set<TargetConfigurator> =
+            configuratorsByModuleType.filterKeys { it in moduleTypes }.values.toSet()
     }
 }
 

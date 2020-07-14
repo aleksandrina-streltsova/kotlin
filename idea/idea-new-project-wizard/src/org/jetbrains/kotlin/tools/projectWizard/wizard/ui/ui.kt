@@ -108,9 +108,10 @@ val ModuleConfigurator.icon: Icon
     get() = when (this) {
         is JsBrowserTargetConfigurator -> KotlinIcons.Wizard.WEB
         is JsNodeTargetConfigurator -> KotlinIcons.Wizard.NODE_JS
-        is IOSSinglePlatformModuleConfigurator -> KotlinIcons.Wizard.IOS
+        is IOSSinglePlatformModuleConfigurator, is IOSSourceSetTemplateConfigurator -> KotlinIcons.Wizard.IOS
         is SimpleTargetConfigurator -> moduleSubType.icon
         is TargetConfigurator -> moduleType.icon
+        is WatchOSSourceSetTemplateConfigurator, is TvOSSourceSetTemplateConfigurator -> KotlinIcons.Wizard.MAC_OS
         else -> moduleKind.icon
     }
 

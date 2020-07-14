@@ -43,7 +43,7 @@ class CreateModuleOrTargetPopup private constructor(
 
     private fun DisplayableSettingItem.needToShow(): Boolean = when (this) {
         is TargetConfigurator -> needToShow()
-        is HmppSourceSetConfigurator -> true
+        is SourceSetTemplateConfigurator -> true
         is TargetConfiguratorGroupWithSubItems -> subItems.any { it.needToShow() }
         else -> false
     }

@@ -67,6 +67,7 @@ interface SimpleTargetConfigurator : TargetConfigurator {
 internal fun Module.createTargetAccessIr(moduleSubType: ModuleSubType) =
     TargetAccessIR(
         moduleSubType,
+        moduleSubType.name,
         name.takeIf { it != moduleSubType.name }
     )
 

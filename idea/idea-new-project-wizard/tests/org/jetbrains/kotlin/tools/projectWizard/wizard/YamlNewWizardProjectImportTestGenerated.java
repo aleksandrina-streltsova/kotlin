@@ -35,6 +35,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
+        @TestMetadata("buildFileWithShortcuts")
+        public void testBuildFileWithShortcuts() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
+        }
+
         @TestMetadata("hierarchicalMultiplatform")
         public void testHierarchicalMultiplatform() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
@@ -108,6 +113,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
+        @TestMetadata("buildFileWithShortcuts")
+        public void testBuildFileWithShortcuts() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
+        }
+
         @TestMetadata("hierarchicalMultiplatform")
         public void testHierarchicalMultiplatform() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
@@ -179,6 +189,11 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
         @TestMetadata("android")
         public void testAndroid() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
+        }
+
+        @TestMetadata("buildFileWithShortcuts")
+        public void testBuildFileWithShortcuts() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
         }
 
         @TestMetadata("hierarchicalMultiplatform")
