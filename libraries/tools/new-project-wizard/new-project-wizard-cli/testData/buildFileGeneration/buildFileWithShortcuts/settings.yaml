@@ -23,19 +23,19 @@ kotlin:
             - type: tvosX64Target
               name: tvosX64
         - type: sourceSet
-          name: ios
+          name: anotherIos
           subModules:
             - type: iosArm64Target
-              name: iosArm64
+              name: anotherIosArm64
             - type: iosX64Target
-              name: iosX64
+              name: anotherIosX64
         - type: sourceSet
           name: shared
           subModules:
             - type: sourceSet
-              name: ios_1
+              name: ios
               subModules:
                   - type: iosArm64Target
-                    name: iosArm64_1
+                    name: iosArm64
                   - type: iosX64Target
-                    name: iosX64_1
+                    name: iosX64

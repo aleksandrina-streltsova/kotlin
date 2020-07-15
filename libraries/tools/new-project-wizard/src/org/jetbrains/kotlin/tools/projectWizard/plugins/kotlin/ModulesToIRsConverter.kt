@@ -203,7 +203,7 @@ class ModulesToIRsConverter(
     ): TaskResult<List<BuildFileIR>> = with(data) {
         val modulePath = calculatePathForModule(module, state.parentPath)
         mutateProjectStructureByModuleConfigurator(module, modulePath)
-        // hmpp sourceSets must be defined after other sourceSets
+        // hmpp source sets must be defined after other source sets
         val allSubModules = module.subModules.withAllSubModules().sortedBy { it.kind == ModuleKind.hmppSourceSet }
         val targetIrs = allSubModules.flatMap { subModule ->
             when {
@@ -215,9 +215,7 @@ class ModulesToIRsConverter(
             }
         }
 
-        val targetModuleIrs = allSubModules
-            .filter { !moduleIsPartOfSourceSetWithShortcut(it) && moduleIsSourceSetWithShortcut(it) == null }
-            .map { target -> createTargetModule(module, target, modulePath) }
+        val targetModuleIrs = allSubModules.map { target -> createTargetModule(module, target, modulePath) }
 
         return BuildFileIR(
             projectName,

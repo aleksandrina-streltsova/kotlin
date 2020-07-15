@@ -11,20 +11,22 @@ repositories {
     }
 }
 kotlin {
-    iosArm64("iosArm64_1") {
+    iosArm64 {
         binaries {
             framework {
-                baseName = "ios_1"
+                baseName = "ios"
             }
         }
     }
-    iosX64("iosX64_1") {
+    iosX64 {
         binaries {
             framework {
-                baseName = "ios_1"
+                baseName = "ios"
             }
         }
     }
+    // Create three targets for watchOS.
+    // Create common source sets: watchosMain and watchosTest.
     watchos {
         binaries {
             framework {
@@ -32,6 +34,8 @@ kotlin {
             }
         }
     }
+    // Create two targets for tvOS.
+    // Create common source sets: tvosMain and tvosTest.
     tvos {
         binaries {
             framework {
@@ -39,10 +43,12 @@ kotlin {
             }
         }
     }
-    ios {
+    // Create two targets for iOS.
+    // Create common source sets: anotherIosMain and anotherIosTest.
+    ios("anotherIos") {
         binaries {
             framework {
-                baseName = "ios"
+                baseName = "anotherIos"
             }
         }
     }
@@ -58,25 +64,25 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val iosArm64_1Main by getting
-        val iosArm64_1Test by getting
-        val iosX64_1Main by getting
-        val iosX64_1Test by getting
+        val iosArm64Main by getting
+        val iosArm64Test by getting
+        val iosX64Main by getting
+        val iosX64Test by getting
         val sharedMain by creating {
             dependsOn(commonMain)
         }
         val sharedTest by creating {
             dependsOn(commonTest)
         }
-        val ios_1Main by creating {
+        val iosMain by creating {
             dependsOn(sharedMain)
-            iosArm64_1Main.dependsOn(this)
-            iosX64_1Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosX64Main.dependsOn(this)
         }
-        val ios_1Test by creating {
+        val iosTest by creating {
             dependsOn(sharedTest)
-            iosArm64_1Test.dependsOn(this)
-            iosX64_1Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosX64Test.dependsOn(this)
         }
     }
 }

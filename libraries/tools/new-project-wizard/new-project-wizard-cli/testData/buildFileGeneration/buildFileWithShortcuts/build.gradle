@@ -11,20 +11,22 @@ repositories {
     }
 }
 kotlin {
-    iosArm64('iosArm64_1') {
+    iosArm64 {
         binaries {
             framework {
-                baseName = 'ios_1'
+                baseName = 'ios'
             }
         }
     }
-    iosX64('iosX64_1') {
+    iosX64 {
         binaries {
             framework {
-                baseName = 'ios_1'
+                baseName = 'ios'
             }
         }
     }
+    // Create three targets for watchOS.
+    // Create common source sets: watchosMain and watchosTest.
     watchos {
         binaries {
             framework {
@@ -32,6 +34,8 @@ kotlin {
             }
         }
     }
+    // Create two targets for tvOS.
+    // Create common source sets: tvosMain and tvosTest.
     tvos {
         binaries {
             framework {
@@ -39,10 +43,12 @@ kotlin {
             }
         }
     }
-    ios {
+    // Create two targets for iOS.
+    // Create common source sets: anotherIosMain and anotherIosTest.
+    ios('anotherIos') {
         binaries {
             framework {
-                baseName = 'ios'
+                baseName = 'anotherIos'
             }
         }
     }
@@ -58,16 +64,16 @@ kotlin {
                 implementation kotlin('test-annotations-common')
             }
         }
-        iosArm64_1Main {
+        iosArm64Main {
 
         }
-        iosArm64_1Test {
+        iosArm64Test {
 
         }
-        iosX64_1Main {
+        iosX64Main {
 
         }
-        iosX64_1Test {
+        iosX64Test {
 
         }
         sharedMain {
@@ -76,15 +82,15 @@ kotlin {
         sharedTest {
             dependsOn commonTest
         }
-        ios_1Main {
+        iosMain {
             dependsOn sharedMain
-            iosArm64_1Main.dependsOn it
-            iosX64_1Main.dependsOn it
+            iosArm64Main.dependsOn it
+            iosX64Main.dependsOn it
         }
-        ios_1Test {
+        iosTest {
             dependsOn sharedTest
-            iosArm64_1Test.dependsOn it
-            iosX64_1Test.dependsOn it
+            iosArm64Test.dependsOn it
+            iosX64Test.dependsOn it
         }
     }
 }

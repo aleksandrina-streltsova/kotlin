@@ -162,8 +162,10 @@ object HmppSourceSetConfigurator : ModuleConfigurator {
     ): TaskResult<Unit> =
         GradlePlugin::gradleProperties.addValues("kotlin.mpp.enableGranularSourceSetsMetadata" to "true")
 
-    fun createSourceSetIrs(module: Module): List<BuildSystemIR> = buildList {
+    fun createSourceSetIrs(module: Module): List<BuildSystemIR> = irsList {
         moduleIsSourceSetWithShortcut(module)?.let { shortcut ->
+            addRaw("// Create ${shortcut.numberOfTargets} targets for ${shortcut.osName}.")
+            addRaw("// Create common source sets: ${module.name}Main and ${module.name}Test.")
             +DefaultTargetConfigurationIR(
                 TargetAccessIR(null, shortcut.name, module.name.takeIf { it != shortcut.name }),
                 irsList {
@@ -200,14 +202,25 @@ abstract class SourceSetTemplateConfigurator : ModuleConfigurator {
 }
 
 @Suppress("EnumEntryName", "SpellCheckingInspection")
-enum class Shortcut(val targetConfigurators: Set<TargetConfigurator>) {
-    ios(RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.iosArm64, ModuleSubType.iosX64))),
-    watchos(
-        RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(
-            listOf(ModuleSubType.watchosArm32, ModuleSubType.watchosArm64, ModuleSubType.watchosX86)
-        )
-    ),
-    tvos(RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64)))
+enum class Shortcut(val osName: String, val numberOfTargets: String = "two") {
+    ios("iOS") {
+        override val targetConfigurators: Set<TargetConfigurator> =
+            RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.iosArm64, ModuleSubType.iosX64))
+    },
+    watchos("watchOS", "three") {
+        override val targetConfigurators: Set<TargetConfigurator> =
+            RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(
+                listOf(ModuleSubType.watchosArm32, ModuleSubType.watchosArm64, ModuleSubType.watchosX86)
+            )
+    },
+    tvos("tvOS") {
+        override val targetConfigurators: Set<TargetConfigurator> =
+            RealNativeTargetConfigurator.getConfiguratorsByModuleTypes(listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64))
+    }
+
+    ;
+
+    abstract val targetConfigurators: Set<TargetConfigurator>
 }
 
 object EmptySourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
@@ -235,12 +248,16 @@ object TvOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
     override val subModuleTypes: List<ModuleSubType> = listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64)
 }
 
-// module is a sourceSet that can be created with shortcut
-fun moduleIsSourceSetWithShortcut(module: Module): Shortcut? = module
-    .takeIf { it.kind == ModuleKind.hmppSourceSet && module.parent?.kind == ModuleKind.multiplatform }
-    ?.subModules?.map { it.configurator }?.toSet()
-    ?.let { subModuleConfigurators ->
-        Shortcut.values().firstOrNull { shortcut -> shortcut.targetConfigurators == subModuleConfigurators }
+// module is a source set that can be created with shortcut
+fun moduleIsSourceSetWithShortcut(module: Module): Shortcut? {
+    if (module.kind == ModuleKind.hmppSourceSet && module.parent?.kind == ModuleKind.multiplatform
+        && module.subModules.all { subModule -> subModule.name.startsWith(module.name) }
+    ) {
+        return module.subModules.map { it.configurator }.toSet().let { subModuleConfigurators ->
+            Shortcut.values().firstOrNull { shortcut -> shortcut.targetConfigurators == subModuleConfigurators }
+        }
     }
+    return null
+}
 
 fun moduleIsPartOfSourceSetWithShortcut(module: Module): Boolean = module.parent?.let { moduleIsSourceSetWithShortcut(it) != null } ?: false

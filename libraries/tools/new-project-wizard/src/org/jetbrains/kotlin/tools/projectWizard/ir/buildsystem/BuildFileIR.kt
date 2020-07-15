@@ -7,6 +7,8 @@ import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatf
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatform.TargetConfigurationIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.maven.MavenPropertyIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.maven.PluginRepositoryMavenIR
+import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.moduleIsPartOfSourceSetWithShortcut
+import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.moduleIsSourceSetWithShortcut
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleSubType
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.BuildFilePrinter
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
@@ -147,7 +149,9 @@ data class MultiplatformModulesStructureIR(
             }.listNl()
             nlIndented()
             sectionCall("sourceSets") {
-                modules.listNl()
+                modules.filterNot {
+                    moduleIsPartOfSourceSetWithShortcut(it.originalModule) || moduleIsSourceSetWithShortcut(it.originalModule) != null
+                }.listNl()
             }
         }
     }
