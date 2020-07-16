@@ -98,7 +98,7 @@ interface AndroidModuleConfigurator : ModuleConfigurator,
             "src" / "main" / "AndroidManifest.xml"
         )
 
-        val androidanifestForLibraryXml = FileTemplateDescriptor(
+        val androidManifestForLibraryXml = FileTemplateDescriptor(
             "android/AndroidManifestLibrary.xml.vm",
             "src" / "main" / "AndroidManifest.xml"
         )
@@ -159,7 +159,7 @@ object AndroidTargetConfigurator : TargetConfigurator,
         val settings = mapOf("package" to javaPackage.asCodePackage())
         TemplatesPlugin::addFileTemplates.execute(
             listOf(
-                FileTemplate(AndroidModuleConfigurator.FileTemplateDescriptors.androidanifestForLibraryXml, modulePath, settings)
+                FileTemplate(AndroidModuleConfigurator.FileTemplateDescriptors.androidManifestForLibraryXml, modulePath, settings)
             )
         )
     }

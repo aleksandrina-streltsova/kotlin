@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.synthetic.SyntheticMemberDescriptor
 import org.jetbrains.kotlin.resolve.calls.inference.NewConstraintSystem
-import org.jetbrains.kotlin.resolve.calls.inference.addSubtypeConstraintIfCompatible
+import org.jetbrains.kotlin.resolve.calls.inference.addEqualityConstraintIfCompatible
 import org.jetbrains.kotlin.resolve.calls.inference.components.KotlinConstraintSystemCompleter
 import org.jetbrains.kotlin.resolve.calls.inference.components.KotlinConstraintSystemCompleter.ConstraintSystemCompletionMode
 import org.jetbrains.kotlin.resolve.calls.inference.components.TrivialConstraintTypeInferenceOracle
@@ -101,11 +101,8 @@ class KotlinCallCompleter(
             return candidates
         }
 
-        val newAtoms = mutableMapOf<KotlinResolutionCandidate, ResolvedLambdaAtom>()
-        for ((candidate, atom) in lambdas.entries) {
-            val newAtom = kotlinConstraintSystemCompleter.prepareLambdaAtomForFactoryPattern(atom, candidate, candidate)
-            newAtoms[candidate] = newAtom
-            candidate.addResolvedKtPrimitive(newAtom)
+        val newAtoms = lambdas.mapValues { (candidate, atom) ->
+            kotlinConstraintSystemCompleter.prepareLambdaAtomForFactoryPattern(atom, candidate, candidate)
         }
 
         val diagnosticHolderForLambda = KotlinDiagnosticsHolder.SimpleHolder()
@@ -285,7 +282,7 @@ class KotlinCallCompleter(
             }
 
             expectedType === TypeUtils.UNIT_EXPECTED_TYPE ->
-                csBuilder.addSubtypeConstraintIfCompatible(
+                csBuilder.addEqualityConstraintIfCompatible(
                     returnType, csBuilder.builtIns.unitType, ExpectedTypeConstraintPosition(resolvedCall.atom)
                 )
 

@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinUsages
 import org.jetbrains.kotlin.gradle.plugin.mpp.disambiguateName
 import org.jetbrains.kotlin.gradle.plugin.mpp.isMain
 import org.jetbrains.kotlin.gradle.plugin.sources.KotlinDependencyScope
+import org.jetbrains.kotlin.gradle.plugin.sources.compilationDependencyConfigurationByScope
 import org.jetbrains.kotlin.gradle.plugin.sources.sourceSetDependencyConfigurationByScope
 import org.jetbrains.kotlin.gradle.plugin.usesPlatformOf
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
@@ -54,9 +55,8 @@ internal class KotlinCompilationNpmResolver(
     val publicPackageJsonTaskHolder: TaskProvider<PublicPackageJsonTask> =
         project.registerTask<PublicPackageJsonTask>(
             npmProject.publicPackageJsonTaskName,
-            listOf(nodeJs, npmProject)
+            listOf(compilation)
         ) {
-            it.skipOnEmptyNpmDependencies = true
             it.dependsOn(nodeJs.npmInstallTaskProvider)
             it.dependsOn(packageJsonTaskHolder)
         }.also { packageJsonTask ->
@@ -65,7 +65,7 @@ internal class KotlinCompilationNpmResolver(
                     .withType(Zip::class.java)
                     .named(npmProject.target.artifactsTaskName)
                     .configure {
-                        it.from(packageJsonTask)
+                        it.dependsOn(packageJsonTask)
                     }
             }
         }
@@ -134,10 +134,15 @@ internal class KotlinCompilationNpmResolver(
         all.isCanBeResolved = true
         all.description = "NPM configuration for $compilation."
 
-        compilation.allKotlinSourceSets.forEach { sourceSet ->
-            KotlinDependencyScope.values().forEach { scope ->
-                val configuration = project.sourceSetDependencyConfigurationByScope(sourceSet, scope)
-                all.extendsFrom(configuration)
+        KotlinDependencyScope.values().forEach { scope ->
+            val compilationConfiguration = project.compilationDependencyConfigurationByScope(
+                compilation,
+                scope
+            )
+            all.extendsFrom(compilationConfiguration)
+            compilation.allKotlinSourceSets.forEach { sourceSet ->
+                val sourceSetConfiguration = project.sourceSetDependencyConfigurationByScope(sourceSet, scope)
+                all.extendsFrom(sourceSetConfiguration)
             }
         }
 
@@ -178,6 +183,17 @@ internal class KotlinCompilationNpmResolver(
             if (compilation.name == KotlinCompilation.TEST_COMPILATION_NAME) {
                 val main = compilation.target.compilations.findByName(KotlinCompilation.MAIN_COMPILATION_NAME) as KotlinJsCompilation
                 internalDependencies.add(projectResolver[main])
+            }
+
+            val hasPublicNpmDependencies = externalNpmDependencies.isNotEmpty()
+
+            if (compilation.isMain() && hasPublicNpmDependencies) {
+                project.tasks
+                    .withType(Zip::class.java)
+                    .named(npmProject.target.artifactsTaskName)
+                    .configure { task ->
+                        task.from(publicPackageJsonTaskHolder)
+                    }
             }
 
             plugins.forEach {
@@ -341,7 +357,7 @@ internal class KotlinCompilationNpmResolver(
             }
 
             if (!skipWriting) {
-                packageJson.saveTo(npmProject.packageJsonFile)
+                packageJson.saveTo(npmProject.prePackageJsonFile)
             }
 
             return KotlinCompilationNpmResolution(

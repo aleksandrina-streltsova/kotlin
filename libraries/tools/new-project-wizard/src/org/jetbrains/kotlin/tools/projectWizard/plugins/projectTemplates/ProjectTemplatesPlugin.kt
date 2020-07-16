@@ -2,6 +2,8 @@ package org.jetbrains.kotlin.tools.projectWizard.plugins.projectTemplates
 
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import org.jetbrains.kotlin.tools.projectWizard.core.*
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.PipelineTask
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.PluginSetting
 
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.KotlinPlugin
@@ -9,6 +11,8 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.withAllSubModules
 import org.jetbrains.kotlin.tools.projectWizard.projectTemplates.ProjectTemplate
 
 class ProjectTemplatesPlugin(context: Context) : Plugin(context) {
+    override val path = "projectTemplates"
+
     val template by dropDownSetting<ProjectTemplate>(
         KotlinNewProjectWizardBundle.message("plugin.templates.setting.template"),
         GenerationPhase.INIT_TEMPLATE,
@@ -19,6 +23,9 @@ class ProjectTemplatesPlugin(context: Context) : Plugin(context) {
         values = ProjectTemplate.ALL
         isRequired = false
     }
+
+    override val settings: List<PluginSetting<*, *>> = listOf(template)
+    override val pipelineTasks: List<PipelineTask> = listOf()
 }
 
 fun SettingsWriter.applyProjectTemplate(projectTemplate: ProjectTemplate) {

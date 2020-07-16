@@ -45,6 +45,8 @@ import org.jetbrains.kotlin.idea.codeInsight.generate.AbstractCodeInsightActionT
 import org.jetbrains.kotlin.idea.codeInsight.generate.AbstractGenerateHashCodeAndEqualsActionTest
 import org.jetbrains.kotlin.idea.codeInsight.generate.AbstractGenerateTestSupportMethodActionTest
 import org.jetbrains.kotlin.idea.codeInsight.generate.AbstractGenerateToStringActionTest
+import org.jetbrains.kotlin.idea.codeInsight.hints.AbstractKotlinLambdasHintsProvider
+import org.jetbrains.kotlin.idea.codeInsight.hints.AbstractKotlinReferenceTypeHintsProviderTest
 import org.jetbrains.kotlin.idea.codeInsight.moveUpDown.AbstractMoveLeftRightTest
 import org.jetbrains.kotlin.idea.codeInsight.moveUpDown.AbstractMoveStatementTest
 import org.jetbrains.kotlin.idea.codeInsight.postfix.AbstractPostfixTemplateProviderTest
@@ -271,6 +273,10 @@ fun main(args: Array<String>) {
                 model("resolve/partialBodyResolve")
             }
 
+            testClass<AbstractResolveModeComparisonTest> {
+                model("resolve/resolveModeComparison")
+            }
+
             testClass<AbstractPsiCheckerTest> {
                 model("checker", recursive = false)
                 model("checker/regression")
@@ -466,6 +472,7 @@ fun main(args: Array<String>) {
                 model("codeInsight/moveUpDown/classBodyDeclarations", pattern = KT_OR_KTS, testMethod = "doTestClassBodyDeclaration")
                 model("codeInsight/moveUpDown/closingBraces", testMethod = "doTestExpression")
                 model("codeInsight/moveUpDown/expressions", pattern = KT_OR_KTS, testMethod = "doTestExpression")
+                model("codeInsight/moveUpDown/line", testMethod = "doTestLine")
                 model("codeInsight/moveUpDown/parametersAndArguments", testMethod = "doTestExpression")
                 model("codeInsight/moveUpDown/trailingComma", testMethod = "doTestExpressionWithTrailingComma")
             }
@@ -878,6 +885,10 @@ fun main(args: Array<String>) {
                 model("codeInsight/codeVision")
             }
 
+            testClass<AbstractKotlinReferenceTypeHintsProviderTest> {
+                model("codeInsight/hints/types")
+            }
+
             testClass<AbstractScriptConfigurationHighlightingTest> {
                 model("script/definition/highlighting", extension = null, recursive = false)
                 model("script/definition/complex", extension = null, recursive = false, testMethod = "doComplexTest")
@@ -1039,6 +1050,10 @@ fun main(args: Array<String>) {
 
             testClass<AbstractScratchLineMarkersTest> {
                 model("scratch/lineMarker", testMethod = "doScratchTest", pattern = KT_OR_KTS)
+            }
+
+            testClass<AbstractScriptTemplatesFromDependenciesTest> {
+                model("script/templatesFromDependencies", extension = null, recursive = false)
             }
         }
 

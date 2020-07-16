@@ -10,6 +10,9 @@ import org.jetbrains.kotlin.tools.projectWizard.core.Context
 import org.jetbrains.kotlin.tools.projectWizard.core.Plugin
 import org.jetbrains.kotlin.tools.projectWizard.core.UNIT_SUCCESS
 import org.jetbrains.kotlin.tools.projectWizard.core.checker
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.PipelineTask
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.Task
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.PluginSetting
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.AndroidModuleConfigurator
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.allIRModules
@@ -18,6 +21,8 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.KotlinPlugin
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.withAllSubModules
 
 class AndroidPlugin(context: Context) : Plugin(context) {
+    override val path = "android"
+
     val androidSdkPath by pathSetting(
         KotlinNewProjectWizardBundle.message("plugin.android.setting.sdk"),
         neededAtPhase = GenerationPhase.PROJECT_GENERATION
@@ -45,4 +50,11 @@ class AndroidPlugin(context: Context) : Plugin(context) {
             )
         }
     }
+
+    override val settings: List<PluginSetting<*, *>> = listOf(
+        androidSdkPath
+    )
+    override val pipelineTasks: List<PipelineTask> = listOf(
+        addAndroidSdkToLocalProperties
+    )
 }

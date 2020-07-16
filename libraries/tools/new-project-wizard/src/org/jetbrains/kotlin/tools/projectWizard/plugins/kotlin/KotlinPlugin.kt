@@ -3,9 +3,11 @@ package org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import org.jetbrains.kotlin.tools.projectWizard.Versions
 import org.jetbrains.kotlin.tools.projectWizard.core.*
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.PipelineTask
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.ValidationResult
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.fold
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settingValidator
+import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.PluginSetting
 import org.jetbrains.kotlin.tools.projectWizard.core.service.*
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildFileIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.RepositoryIR
@@ -23,6 +25,8 @@ import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 import java.nio.file.Path
 
 class KotlinPlugin(context: Context) : Plugin(context) {
+    override val path = "kotlin"
+
     val version by property(
         // todo do not hardcode kind & repository
         WizardKotlinVersion(Versions.KOTLIN, KotlinVersionKind.M, Repositories.KOTLIN_EAP_BINTRAY)
@@ -159,6 +163,21 @@ class KotlinPlugin(context: Context) : Plugin(context) {
             }.fold()
         }
     }
+
+    override val settings: List<PluginSetting<*, *>> =
+        listOf(
+            projectKind,
+            modules,
+        )
+
+    override val pipelineTasks: List<PipelineTask> =
+        listOf(
+            initKotlinVersions,
+            createModules,
+            createPluginRepositories,
+            createSourcesetDirectories
+        )
+
 }
 
 enum class ProjectKind(override val text: String) : DisplayableSettingItem {
