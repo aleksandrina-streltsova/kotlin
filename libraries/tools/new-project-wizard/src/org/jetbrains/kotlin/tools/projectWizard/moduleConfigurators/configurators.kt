@@ -160,7 +160,7 @@ object HmppSourceSetConfigurator : ModuleConfigurator {
         module: Module,
         modulePath: Path
     ): TaskResult<Unit> =
-        GradlePlugin::gradleProperties.addValues("kotlin.mpp.enableGranularSourceSetsMetadata" to "true")
+        GradlePlugin.gradleProperties.addValues("kotlin.mpp.enableGranularSourceSetsMetadata" to "true")
 
     fun createSourceSetIrs(module: Module): List<BuildSystemIR> = irsList {
         moduleIsSourceSetWithShortcut(module)?.let { shortcut ->

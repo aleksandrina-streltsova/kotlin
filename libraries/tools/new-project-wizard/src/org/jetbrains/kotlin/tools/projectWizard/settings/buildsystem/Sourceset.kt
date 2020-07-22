@@ -87,7 +87,7 @@ fun createDefaultSourcesets(): List<Sourceset> =
     SourcesetType.values().map { sourcesetType -> Sourceset(sourcesetType, dependencies = emptyList()) }
 
 fun Writer.updateBuildFiles(action: (BuildFileIR) -> TaskResult<BuildFileIR>): TaskResult<Unit> =
-    BuildSystemPlugin::buildFiles.update { buildFiles ->
+    BuildSystemPlugin.buildFiles.update { buildFiles ->
         buildFiles.mapSequence(action)
     }
 

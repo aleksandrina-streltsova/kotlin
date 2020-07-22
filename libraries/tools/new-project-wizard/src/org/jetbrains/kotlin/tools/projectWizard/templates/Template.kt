@@ -66,6 +66,7 @@ fun <V : Any, T : SettingType<V>> Reader.settingValue(module: Module, setting: T
 
 abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSettingItem {
     final override fun <V : Any, T : SettingType<V>> settingDelegate(
+        prefix: String,
         create: (path: String) -> SettingBuilder<V, T>
     ): ReadOnlyProperty<Any, TemplateSetting<V, T>> = cached { name ->
         TemplateSetting(create(name).buildInternal())
@@ -123,7 +124,7 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
             else -> idFunction()
         }
 
-        RunConfigurationsPlugin::configurations.addValues(createRunConfigurations(module))
+        RunConfigurationsPlugin.configurations.addValues(createRunConfigurations(module))
 
         val result = TemplateApplicationResult(librariesToAdd, irsToAddToBuildFile, targetsUpdater)
         return result.asSuccess()
@@ -141,7 +142,7 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
 
 
     private fun Reader.createDefaultSettings() = mapOf(
-        "projectName" to StructurePlugin::name.settingValue.capitalize()
+        "projectName" to StructurePlugin.name.settingValue.capitalize()
     )
 
     override fun equals(other: Any?): Boolean =
@@ -154,12 +155,14 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
         title: String,
         neededAtPhase: GenerationPhase,
         parser: Parser<V>,
+        prefix: String,
         init: DropDownSettingType.Builder<V>.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<V, DropDownSettingType<V>>> =
         super.dropDownSetting(
             title,
             neededAtPhase,
             parser,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<V, DropDownSettingType<V>>>
 
@@ -167,11 +170,13 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
     final override fun stringSetting(
         title: String,
         neededAtPhase: GenerationPhase,
+        prefix: String,
         init: StringSettingType.Builder.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<String, StringSettingType>> =
         super.stringSetting(
             title,
             neededAtPhase,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<String, StringSettingType>>
 
@@ -179,11 +184,13 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
     final override fun booleanSetting(
         title: String,
         neededAtPhase: GenerationPhase,
+        prefix: String,
         init: BooleanSettingType.Builder.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<Boolean, BooleanSettingType>> =
         super.booleanSetting(
             title,
             neededAtPhase,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<Boolean, BooleanSettingType>>
 
@@ -192,12 +199,14 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
         title: String,
         neededAtPhase: GenerationPhase,
         parser: Parser<V>,
+        prefix: String,
         init: ValueSettingType.Builder<V>.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<V, ValueSettingType<V>>> =
         super.valueSetting(
             title,
             neededAtPhase,
             parser,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<V, ValueSettingType<V>>>
 
@@ -205,11 +214,13 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
     final override fun versionSetting(
         title: String,
         neededAtPhase: GenerationPhase,
+        prefix: String,
         init: VersionSettingType.Builder.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<Version, VersionSettingType>> =
         super.versionSetting(
             title,
             neededAtPhase,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<Version, VersionSettingType>>
 
@@ -218,12 +229,14 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
         title: String,
         neededAtPhase: GenerationPhase,
         parser: Parser<V>,
+        prefix: String,
         init: ListSettingType.Builder<V>.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<List<V>, ListSettingType<V>>> =
         super.listSetting(
             title,
             neededAtPhase,
             parser,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<List<V>, ListSettingType<V>>>
 
@@ -232,11 +245,13 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
     final override fun pathSetting(
         title: String,
         neededAtPhase: GenerationPhase,
+        prefix: String,
         init: PathSettingType.Builder.() -> Unit
     ): ReadOnlyProperty<Any, TemplateSetting<Path, PathSettingType>> =
         super.pathSetting(
             title,
             neededAtPhase,
+            prefix,
             init
         ) as ReadOnlyProperty<Any, TemplateSetting<Path, PathSettingType>>
 
@@ -244,9 +259,10 @@ abstract class Template : SettingsOwner, EntitiesOwnerDescriptor, DisplayableSet
     inline fun <reified E> enumSetting(
         title: String,
         neededAtPhase: GenerationPhase,
+        prefix: String = "",
         crossinline init: DropDownSettingType.Builder<E>.() -> Unit = {}
     ): ReadOnlyProperty<Any, TemplateSetting<E, DropDownSettingType<E>>> where E : Enum<E>, E : DisplayableSettingItem =
-        enumSettingImpl(title, neededAtPhase, init) as ReadOnlyProperty<Any, TemplateSetting<E, DropDownSettingType<E>>>
+        enumSettingImpl(title, neededAtPhase, prefix, init) as ReadOnlyProperty<Any, TemplateSetting<E, DropDownSettingType<E>>>
 
     companion object {
         fun parser(templateId: Identificator): Parser<Template> = mapParser { map, path ->
