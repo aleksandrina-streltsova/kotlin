@@ -14,8 +14,6 @@ import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.PomIR
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class StructurePlugin(context: Context) : Plugin(context) {
     override val path = PATH
@@ -38,7 +36,7 @@ class StructurePlugin(context: Context) : Plugin(context) {
 
             validate { path ->
                 if (!Files.exists(path)) return@validate ValidationResult.OK
-                ValidationResult.create(Files.list(path).noneMatch { true }) {
+                ValidationResult.create(Files.list(path).none { true }) {
                     KotlinNewProjectWizardBundle.message("plugin.structure.setting.location.error.is.not.empty")
                 }
             }

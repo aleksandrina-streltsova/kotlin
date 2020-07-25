@@ -1,11 +1,11 @@
 package org.jetbrains.kotlin.tools.projectWizard.core.service
 
+import org.jetbrains.kotlin.tools.projectWizard.core.Path
 import org.jetbrains.kotlin.tools.projectWizard.core.Reader
 import org.jetbrains.kotlin.tools.projectWizard.core.TaskResult
 import org.jetbrains.kotlin.tools.projectWizard.core.UNIT_SUCCESS
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.ModuleIR
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemType
-import java.nio.file.Path
 
 interface ProjectImportingWizardService : BuildSystemWizardService {
     fun importProject(

@@ -3,8 +3,6 @@ package org.jetbrains.kotlin.tools.projectWizard.core
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.annotations.NonNls
 import java.io.IOException
-import java.nio.file.Path
-import java.nio.file.Paths
 import kotlin.properties.ReadOnlyProperty
 import kotlin.random.Random
 import kotlin.reflect.KProperty

@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildFileIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.ModuleIR
 import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemPlugin
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
-import java.nio.file.Paths
 
 inline class ModulePath(val parts: List<String>) {
     constructor(path: String) : this(path.trim().split('.'))

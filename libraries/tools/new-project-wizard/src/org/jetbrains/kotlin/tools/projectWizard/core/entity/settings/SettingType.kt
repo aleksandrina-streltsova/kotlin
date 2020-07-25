@@ -12,9 +12,6 @@ import org.jetbrains.kotlin.tools.projectWizard.core.entity.*
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 
 sealed class SettingType<out V : Any> {
     abstract fun parse(context: ParsingContext, value: Any, name: String): TaskResult<V>

@@ -21,7 +21,6 @@ import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.Interc
 import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.TemplateInterceptionApplicationState
 import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.applyAll
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.settingValue
-import java.nio.file.Path
 
 class TemplatesPlugin(context: Context) : Plugin(context) {
     override val path = PATH

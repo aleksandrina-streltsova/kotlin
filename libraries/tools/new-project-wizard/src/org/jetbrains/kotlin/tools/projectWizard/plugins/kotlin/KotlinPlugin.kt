@@ -18,7 +18,6 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.pomIR
 import org.jetbrains.kotlin.tools.projectWizard.plugins.projectPath
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
-import java.nio.file.Path
 
 class KotlinPlugin(context: Context) : Plugin(context) {
     override val path = PATH

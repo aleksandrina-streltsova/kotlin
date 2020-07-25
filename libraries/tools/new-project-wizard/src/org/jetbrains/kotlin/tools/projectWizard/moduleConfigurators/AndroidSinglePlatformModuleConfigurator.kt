@@ -24,7 +24,6 @@ import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Repositorie
 import org.jetbrains.kotlin.tools.projectWizard.settings.javaPackage
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplate
-import java.nio.file.Path
 
 object AndroidSinglePlatformModuleConfigurator :
     SinglePlatformModuleConfigurator,

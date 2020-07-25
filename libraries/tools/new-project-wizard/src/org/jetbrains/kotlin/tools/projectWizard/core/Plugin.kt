@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.tools.projectWizard.enumSettingImpl
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
-import java.nio.file.Path
 import kotlin.properties.ReadOnlyProperty
 
 typealias PluginsCreator = (Context) -> List<Plugin>

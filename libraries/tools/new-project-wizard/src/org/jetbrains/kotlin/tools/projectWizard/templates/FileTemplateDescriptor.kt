@@ -1,10 +1,10 @@
 package org.jetbrains.kotlin.tools.projectWizard.templates
 
 import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.Path
+import org.jetbrains.kotlin.tools.projectWizard.core.Paths
 import org.jetbrains.kotlin.tools.projectWizard.core.asPath
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.SourcesetType
-import java.nio.file.Path
-import java.nio.file.Paths
 
 
 // Should be used to create any kind of files in the generated project

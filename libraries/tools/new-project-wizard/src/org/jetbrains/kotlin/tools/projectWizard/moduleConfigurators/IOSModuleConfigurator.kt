@@ -14,7 +14,6 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModulesToIrConver
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplate
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplateDescriptor
-import java.nio.file.Path
 
 object IOSSinglePlatformModuleConfigurator : SinglePlatformModuleConfigurator, ModuleConfiguratorSettings() {
     @NonNls

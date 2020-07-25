@@ -6,13 +6,12 @@
 package org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem
 
 import kotlinx.collections.immutable.PersistentList
+import org.jetbrains.kotlin.tools.projectWizard.core.Path
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.GradleIR
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.BuildFilePrinter
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Sourceset
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.SourcesetType
-import java.nio.file.Path
-
 
 sealed class SourcesetIR : BuildSystemIR {
     abstract val sourcesetType: SourcesetType

@@ -33,7 +33,6 @@ import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Repository
 import org.jetbrains.kotlin.tools.projectWizard.settings.javaPackage
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplate
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplateDescriptor
-import java.nio.file.Path
 
 interface AndroidModuleConfigurator : ModuleConfigurator,
     ModuleConfiguratorWithSettings,
