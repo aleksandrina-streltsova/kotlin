@@ -5,9 +5,8 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators
 
-
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.Versions
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.ModuleConfiguratorSetting

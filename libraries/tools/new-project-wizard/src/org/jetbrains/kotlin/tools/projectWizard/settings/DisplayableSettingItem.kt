@@ -1,6 +1,6 @@
 package org.jetbrains.kotlin.tools.projectWizard.settings
 
-import org.jetbrains.annotations.Nls
+import org.jetbrains.kotlin.tools.projectWizard.core.Nls
 
 interface DisplayableSettingItem {
     @get:Nls

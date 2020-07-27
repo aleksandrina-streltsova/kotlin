@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle
 
 import kotlinx.collections.immutable.PersistentList
-import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 

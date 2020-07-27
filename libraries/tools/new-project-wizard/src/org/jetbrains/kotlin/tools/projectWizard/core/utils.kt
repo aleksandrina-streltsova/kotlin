@@ -1,7 +1,6 @@
 package org.jetbrains.kotlin.tools.projectWizard.core
 
 import kotlinx.collections.immutable.toPersistentList
-import org.jetbrains.annotations.NonNls
 import java.io.IOException
 import kotlin.properties.ReadOnlyProperty
 import kotlin.random.Random
@@ -105,3 +104,19 @@ object RandomIdGenerator {
     }
 
 }
+
+@OptIn(ExperimentalMultiplatform::class)
+@OptionalExpectation
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
+expect annotation class Nls()
+
+@OptIn(ExperimentalMultiplatform::class)
+@OptionalExpectation
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
+expect annotation class NonNls()
+
+expect fun Char.isLetterOrDigit(): Boolean
+
+expect fun Char.isDigit(): Boolean

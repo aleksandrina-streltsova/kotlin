@@ -6,10 +6,8 @@
 package org.jetbrains.kotlin.tools.projectWizard.templates
 
 
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.kotlin.tools.projectWizard.core.Writer
-import org.jetbrains.kotlin.tools.projectWizard.core.asPath
-import org.jetbrains.kotlin.tools.projectWizard.core.buildList
+import org.jetbrains.kotlin.tools.projectWizard.*
+import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.TemplateSetting
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.multiplatform.TargetConfigurationIR
@@ -22,13 +20,7 @@ import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.DefaultRepo
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Repositories
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.SourcesetType
 import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.InterceptionPoint
-import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
-import org.jetbrains.kotlin.tools.projectWizard.Versions
-import org.jetbrains.kotlin.tools.projectWizard.WizardGradleRunConfiguration
-import org.jetbrains.kotlin.tools.projectWizard.WizardRunConfiguration
-import org.jetbrains.kotlin.tools.projectWizard.core.Reader
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.KotlinPlugin
-import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 
 class KtorServerTemplate : Template() {

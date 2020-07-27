@@ -5,11 +5,7 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.templates
 
-
-import org.jetbrains.annotations.Nls
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.kotlin.tools.projectWizard.WizardGradleRunConfiguration
-import org.jetbrains.kotlin.tools.projectWizard.WizardRunConfiguration
+import org.jetbrains.kotlin.tools.projectWizard.*
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.TemplateSetting
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
@@ -27,8 +23,6 @@ import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.*
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.TemplateInterceptor
 import org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors.interceptTemplate
-import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
-import org.jetbrains.kotlin.tools.projectWizard.Versions
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.KotlinPlugin
 
 class SimpleJsClientTemplate : Template() {

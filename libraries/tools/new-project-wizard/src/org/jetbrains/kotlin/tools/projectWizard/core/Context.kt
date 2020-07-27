@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.tools.projectWizard.core.service.ServicesManager
 import org.jetbrains.kotlin.tools.projectWizard.core.service.SettingSavingWizardService
 import org.jetbrains.kotlin.tools.projectWizard.core.service.WizardService
 import org.jetbrains.kotlin.tools.projectWizard.phases.GenerationPhase
+import kotlin.jvm.JvmName
 import kotlin.reflect.KClass
 
 

@@ -1,9 +1,9 @@
 package org.jetbrains.kotlin.tools.projectWizard.templates
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.Path
 import org.jetbrains.kotlin.tools.projectWizard.core.Paths
 import org.jetbrains.kotlin.tools.projectWizard.core.asPath
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.SourcesetType
 
 

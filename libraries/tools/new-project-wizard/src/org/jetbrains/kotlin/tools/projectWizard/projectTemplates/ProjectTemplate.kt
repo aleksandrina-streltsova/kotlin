@@ -5,8 +5,8 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.projectTemplates
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.buildList
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.*
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.*

@@ -1,9 +1,8 @@
 package org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem
 
-
-import org.jetbrains.annotations.Nls
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.Nls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.PipelineTask
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.Property

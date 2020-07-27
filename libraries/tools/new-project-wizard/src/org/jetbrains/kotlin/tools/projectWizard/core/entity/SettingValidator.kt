@@ -1,11 +1,7 @@
 package org.jetbrains.kotlin.tools.projectWizard.core.entity
 
-import org.jetbrains.annotations.Nls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
-import org.jetbrains.kotlin.tools.projectWizard.core.Failure
-import org.jetbrains.kotlin.tools.projectWizard.core.Reader
-import org.jetbrains.kotlin.tools.projectWizard.core.UNIT_SUCCESS
-import org.jetbrains.kotlin.tools.projectWizard.core.ValidationError
+import org.jetbrains.kotlin.tools.projectWizard.core.*
 
 
 inline class SettingValidator<V>(val validate: Reader.(V) -> ValidationResult) {

@@ -5,8 +5,7 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem
 
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.kotlin.tools.projectWizard.core.buildList
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.gradle.*
 
 fun runTaskIrs(@NonNls mainClass: String, classPath: BuildSystemIR? = null) = irsList {

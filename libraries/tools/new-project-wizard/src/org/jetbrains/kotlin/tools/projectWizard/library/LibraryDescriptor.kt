@@ -1,6 +1,6 @@
 package org.jetbrains.kotlin.tools.projectWizard.library
 
-import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Repository
 import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 

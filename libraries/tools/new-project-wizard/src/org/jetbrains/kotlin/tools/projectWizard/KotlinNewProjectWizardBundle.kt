@@ -5,14 +5,6 @@
 
 package org.jetbrains.kotlin.tools.projectWizard
 
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.annotations.PropertyKey
-import com.intellij.AbstractBundle
-
-@NonNls
-private const val BUNDLE = "messages.KotlinNewProjectWizardBundle"
-
-object KotlinNewProjectWizardBundle : AbstractBundle(BUNDLE) {
-    @JvmStatic
-    fun message(@NonNls @PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String = getMessage(key, *params)
+expect object KotlinNewProjectWizardBundle {
+    fun message(key: String, vararg params: Any): String
 }

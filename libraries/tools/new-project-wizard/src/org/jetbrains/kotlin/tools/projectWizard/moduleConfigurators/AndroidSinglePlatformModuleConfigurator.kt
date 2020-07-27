@@ -5,9 +5,8 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators
 
-
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.Versions
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.*
@@ -20,9 +19,7 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.templates.TemplatesPlugi
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.DefaultRepository
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.ModuleKind
-import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Repositories
 import org.jetbrains.kotlin.tools.projectWizard.settings.javaPackage
-import org.jetbrains.kotlin.tools.projectWizard.settings.version.Version
 import org.jetbrains.kotlin.tools.projectWizard.templates.FileTemplate
 
 object AndroidSinglePlatformModuleConfigurator :

@@ -1,6 +1,5 @@
 package org.jetbrains.kotlin.tools.projectWizard.templates
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.Writer
 import org.jetbrains.kotlin.tools.projectWizard.core.asPath
 import org.jetbrains.kotlin.tools.projectWizard.core.buildList
@@ -12,6 +11,7 @@ import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.runTaskIrs
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.ModuleType
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.SourcesetType
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.Reader
 
 class ConsoleJvmApplicationTemplate : Template() {

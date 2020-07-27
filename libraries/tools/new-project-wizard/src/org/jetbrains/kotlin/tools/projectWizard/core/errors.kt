@@ -1,7 +1,5 @@
 package org.jetbrains.kotlin.tools.projectWizard.core
 
-import org.jetbrains.annotations.Nls
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
 import java.io.IOException
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module

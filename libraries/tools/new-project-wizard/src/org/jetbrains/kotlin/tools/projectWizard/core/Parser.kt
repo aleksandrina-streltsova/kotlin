@@ -1,6 +1,5 @@
 package org.jetbrains.kotlin.tools.projectWizard.core
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.settings.SettingReference
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 import org.jetbrains.kotlin.tools.projectWizard.templates.Template

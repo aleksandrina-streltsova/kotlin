@@ -1,7 +1,7 @@
 package org.jetbrains.kotlin.tools.projectWizard.settings.version
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 import org.jetbrains.kotlin.tools.projectWizard.settings.DisplayableSettingItem
 

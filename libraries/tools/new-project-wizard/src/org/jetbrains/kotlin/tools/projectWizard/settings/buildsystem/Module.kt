@@ -1,10 +1,6 @@
 package org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem
 
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.kotlin.tools.projectWizard.GeneratedIdentificator
-import org.jetbrains.kotlin.tools.projectWizard.Identificator
-import org.jetbrains.kotlin.tools.projectWizard.IdentificatorOwner
-import org.jetbrains.kotlin.tools.projectWizard.KotlinNewProjectWizardBundle
+import org.jetbrains.kotlin.tools.projectWizard.*
 import org.jetbrains.kotlin.tools.projectWizard.core.*
 
 import org.jetbrains.kotlin.tools.projectWizard.core.entity.*

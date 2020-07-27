@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.maven
 
-import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.BuildSystemIR
 import org.jetbrains.kotlin.tools.projectWizard.ir.buildsystem.RepositoryWrapper
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.BuildFilePrinter

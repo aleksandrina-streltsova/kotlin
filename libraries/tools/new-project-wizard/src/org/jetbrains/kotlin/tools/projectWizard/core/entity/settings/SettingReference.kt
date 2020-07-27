@@ -5,8 +5,8 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.core.entity.settings
 
-import org.jetbrains.annotations.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.Identificator
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 import org.jetbrains.kotlin.tools.projectWizard.core.Reader
 import org.jetbrains.kotlin.tools.projectWizard.core.safeAs
 import org.jetbrains.kotlin.tools.projectWizard.moduleConfigurators.ModuleConfigurator

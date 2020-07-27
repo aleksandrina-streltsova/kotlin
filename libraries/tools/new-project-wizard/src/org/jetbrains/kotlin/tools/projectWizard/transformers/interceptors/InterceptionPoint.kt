@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.transformers.interceptors
 
-import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 
 data class InterceptionPoint<out T: Any>(@NonNls val name: String, val initialValue: T)
 

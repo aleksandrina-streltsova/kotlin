@@ -5,8 +5,8 @@
 
 package org.jetbrains.kotlin.tools.projectWizard
 
-import org.jetbrains.annotations.Nls
-import org.jetbrains.annotations.NonNls
+import org.jetbrains.kotlin.tools.projectWizard.core.Nls
+import org.jetbrains.kotlin.tools.projectWizard.core.NonNls
 
 interface WizardRunConfiguration {
     @get:Nls
