@@ -6,7 +6,6 @@ plugins {
 dependencies {
     // Wizard backend is reused in the KMM plugin. Please take a look at https://jetbrains.quip.com/LBjwAw0H3w8H
     // before adding new dependencies on the Kotlin plugin parts.
-    compileOnly(project(":kotlin-reflect-api"))
 
     implementation(intellijDep()) { includeJars("util") } //needed only for message bundles
     testImplementation(intellijDep()) { includeJars("trove4j") } //needed only for message bundles
