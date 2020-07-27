@@ -7,6 +7,8 @@ dependencies {
     implementation(kotlinStdlib())
     compileOnly(project(":kotlin-reflect-api"))
 
+    api("org.apache.velocity:velocity:1.7") // we have to use the old version as it is the same as bundled into IntelliJ
+
     implementation(project(":libraries:tools:new-project-wizard"))
     implementation("org.yaml:snakeyaml:1.24")
 

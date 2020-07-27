@@ -5,9 +5,9 @@
 
 package org.jetbrains.kotlin.tools.projectWizard.cli
 
-import org.jetbrains.kotlin.tools.projectWizard.core.service.Services
 import org.jetbrains.kotlin.tools.projectWizard.core.service.ServicesManager
 import org.jetbrains.kotlin.tools.projectWizard.core.service.WizardService
+import org.jetbrains.kotlin.tools.projectWizard.wizard.core.service.Services
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
 
 interface TestWizardService : WizardService {
