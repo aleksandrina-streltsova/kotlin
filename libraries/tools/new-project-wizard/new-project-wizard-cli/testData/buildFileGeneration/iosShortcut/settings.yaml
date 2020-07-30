@@ -1,0 +1,25 @@
+kotlin:
+  projectKind: Multiplatform
+  modules:
+    - type: multiplatform
+      name: a
+      subModules:
+        - type: commonTarget
+          name: common
+        - type: sourceSet
+          name: anotherIos
+          subModules:
+            - type: iosArm64Target
+              name: anotherIosArm64
+            - type: iosX64Target
+              name: anotherIosX64
+        - type: sourceSet
+          name: shared
+          subModules:
+            - type: sourceSet
+              name: ios
+              subModules:
+                - type: iosArm64Target
+                  name: iosArm64
+                - type: iosX64Target
+                  name: iosX64

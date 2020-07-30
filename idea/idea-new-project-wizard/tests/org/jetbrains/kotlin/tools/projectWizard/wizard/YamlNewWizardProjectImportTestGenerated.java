@@ -35,14 +35,14 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
-        @TestMetadata("buildFileWithShortcuts")
-        public void testBuildFileWithShortcuts() throws Exception {
-            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
-        }
-
         @TestMetadata("hierarchicalMultiplatform")
         public void testHierarchicalMultiplatform() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+        }
+
+        @TestMetadata("iosShortcut")
+        public void testIosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/iosShortcut/");
         }
 
         @TestMetadata("jsNodeAndBrowserTargets")
@@ -93,6 +93,16 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
         @TestMetadata("singleplatformJs")
         public void testSingleplatformJs() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/singleplatformJs/");
+        }
+
+        @TestMetadata("tvosShortcut")
+        public void testTvosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/tvosShortcut/");
+        }
+
+        @TestMetadata("watchosShortcut")
+        public void testWatchosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/watchosShortcut/");
         }
     }
 
@@ -113,14 +123,14 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
-        @TestMetadata("buildFileWithShortcuts")
-        public void testBuildFileWithShortcuts() throws Exception {
-            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
-        }
-
         @TestMetadata("hierarchicalMultiplatform")
         public void testHierarchicalMultiplatform() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+        }
+
+        @TestMetadata("iosShortcut")
+        public void testIosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/iosShortcut/");
         }
 
         @TestMetadata("jsNodeAndBrowserTargets")
@@ -171,6 +181,16 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
         @TestMetadata("singleplatformJs")
         public void testSingleplatformJs() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/singleplatformJs/");
+        }
+
+        @TestMetadata("tvosShortcut")
+        public void testTvosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/tvosShortcut/");
+        }
+
+        @TestMetadata("watchosShortcut")
+        public void testWatchosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/watchosShortcut/");
         }
     }
 
@@ -191,14 +211,14 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/android/");
         }
 
-        @TestMetadata("buildFileWithShortcuts")
-        public void testBuildFileWithShortcuts() throws Exception {
-            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/buildFileWithShortcuts/");
-        }
-
         @TestMetadata("hierarchicalMultiplatform")
         public void testHierarchicalMultiplatform() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/hierarchicalMultiplatform/");
+        }
+
+        @TestMetadata("iosShortcut")
+        public void testIosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/iosShortcut/");
         }
 
         @TestMetadata("jsNodeAndBrowserTargets")
@@ -249,6 +269,16 @@ public class YamlNewWizardProjectImportTestGenerated extends AbstractYamlNewWiza
         @TestMetadata("singleplatformJs")
         public void testSingleplatformJs() throws Exception {
             runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/singleplatformJs/");
+        }
+
+        @TestMetadata("tvosShortcut")
+        public void testTvosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/tvosShortcut/");
+        }
+
+        @TestMetadata("watchosShortcut")
+        public void testWatchosShortcut() throws Exception {
+            runTest("libraries/tools/new-project-wizard/new-project-wizard-cli/testData/buildFileGeneration/watchosShortcut/");
         }
     }
 }

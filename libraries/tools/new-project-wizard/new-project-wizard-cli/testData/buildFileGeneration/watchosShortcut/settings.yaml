@@ -1,0 +1,29 @@
+kotlin:
+  projectKind: Multiplatform
+  modules:
+    - type: multiplatform
+      name: a
+      subModules:
+        - type: commonTarget
+          name: common
+        - type: sourceSet
+          name: anotherWatchos
+          subModules:
+            - type: watchosArm32Target
+              name: anotherWatchosArm32
+            - type: watchosArm64Target
+              name: anotherWatchosArm64
+            - type: watchosX86Target
+              name: anotherWatchosX86
+        - type: sourceSet
+          name: shared
+          subModules:
+            - type: sourceSet
+              name: watchos
+              subModules:
+                - type: watchosArm32Target
+                  name: watchosArm32
+                - type: watchosArm64Target
+                  name: watchosArm64
+                - type: watchosX86Target
+                  name: watchosX86

@@ -1,0 +1,78 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN_VERSION'
+}
+group = 'testGroupId'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/kotlin/kotlin-dev'
+    }
+}
+kotlin {
+    tvosArm64 {
+        binaries {
+            framework {
+                baseName = 'tvos'
+            }
+        }
+    }
+    tvosX64 {
+        binaries {
+            framework {
+                baseName = 'tvos'
+            }
+        }
+    }
+    // Create two targets for tvOS.
+    // Create common source sets: anotherTvosMain and anotherTvosTest.
+    tvos('anotherTvos') {
+        binaries {
+            framework {
+                baseName = 'anotherTvos'
+            }
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }            
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }            
+        }
+        tvosArm64Main {
+            
+        }
+        tvosArm64Test {
+            
+        }
+        tvosX64Main {
+            
+        }
+        tvosX64Test {
+            
+        }
+        sharedMain {
+            dependsOn commonMain
+        }
+        sharedTest {
+            dependsOn commonTest
+        }
+        tvosMain {
+            dependsOn sharedMain
+            tvosArm64Main.dependsOn it
+            tvosX64Main.dependsOn it
+        }
+        tvosTest {
+            dependsOn sharedTest
+            tvosArm64Test.dependsOn it
+            tvosX64Test.dependsOn it
+        }
+    }
+}

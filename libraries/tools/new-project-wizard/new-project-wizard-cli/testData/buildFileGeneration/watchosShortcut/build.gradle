@@ -1,0 +1,93 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN_VERSION'
+}
+group = 'testGroupId'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/kotlin/kotlin-dev'
+    }
+}
+kotlin {
+    watchosArm32 {
+        binaries {
+            framework {
+                baseName = 'watchos'
+            }
+        }
+    }
+    watchosArm64 {
+        binaries {
+            framework {
+                baseName = 'watchos'
+            }
+        }
+    }
+    watchosX86 {
+        binaries {
+            framework {
+                baseName = 'watchos'
+            }
+        }
+    }
+    // Create three targets for watchOS.
+    // Create common source sets: anotherWatchosMain and anotherWatchosTest.
+    watchos('anotherWatchos') {
+        binaries {
+            framework {
+                baseName = 'anotherWatchos'
+            }
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }            
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }            
+        }
+        watchosArm32Main {
+            
+        }
+        watchosArm32Test {
+            
+        }
+        watchosArm64Main {
+            
+        }
+        watchosArm64Test {
+            
+        }
+        watchosX86Main {
+            
+        }
+        watchosX86Test {
+            
+        }
+        sharedMain {
+            dependsOn commonMain
+        }
+        sharedTest {
+            dependsOn commonTest
+        }
+        watchosMain {
+            dependsOn sharedMain
+            watchosArm32Main.dependsOn it
+            watchosArm64Main.dependsOn it
+            watchosX86Main.dependsOn it
+        }
+        watchosTest {
+            dependsOn sharedTest
+            watchosArm32Test.dependsOn it
+            watchosArm64Test.dependsOn it
+            watchosX86Test.dependsOn it
+        }
+    }
+}

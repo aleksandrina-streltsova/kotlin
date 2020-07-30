@@ -3,9 +3,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven {
-            url = uri("https://dl.bintray.com/kotlin/kotlin-dev")
+            url 'https://dl.bintray.com/kotlin/kotlin-dev'
         }
     }
-
+    
 }
-rootProject.name = "generatedProject"
+rootProject.name = 'generatedProject'

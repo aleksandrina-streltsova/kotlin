@@ -25,24 +25,6 @@ kotlin {
             }
         }
     }
-    // Create three targets for watchOS.
-    // Create common source sets: watchosMain and watchosTest.
-    watchos {
-        binaries {
-            framework {
-                baseName = "watchos"
-            }
-        }
-    }
-    // Create two targets for tvOS.
-    // Create common source sets: tvosMain and tvosTest.
-    tvos {
-        binaries {
-            framework {
-                baseName = "tvos"
-            }
-        }
-    }
     // Create two targets for iOS.
     // Create common source sets: anotherIosMain and anotherIosTest.
     ios("anotherIos") {
@@ -56,13 +38,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-            }
+            }            
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-            }
+            }            
         }
         val iosArm64Main by getting
         val iosArm64Test by getting

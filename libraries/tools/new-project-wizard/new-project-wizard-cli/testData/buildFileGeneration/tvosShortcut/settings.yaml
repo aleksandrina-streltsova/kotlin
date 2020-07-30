@@ -1,0 +1,25 @@
+kotlin:
+  projectKind: Multiplatform
+  modules:
+    - type: multiplatform
+      name: a
+      subModules:
+        - type: commonTarget
+          name: common
+        - type: sourceSet
+          name: anotherTvos
+          subModules:
+            - type: tvosArm64Target
+              name: anotherTvosArm64
+            - type: tvosX64Target
+              name: anotherTvosX64
+        - type: sourceSet
+          name: shared
+          subModules:
+            - type: sourceSet
+              name: tvos
+              subModules:
+                - type: tvosArm64Target
+                  name: tvosArm64
+                - type: tvosX64Target
+                  name: tvosX64
