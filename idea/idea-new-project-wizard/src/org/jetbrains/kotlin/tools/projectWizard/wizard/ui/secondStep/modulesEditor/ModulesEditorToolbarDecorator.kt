@@ -129,5 +129,5 @@ private val Module.kindText
         ModuleKind.singleplatformJs -> KotlinNewProjectWizardBundle.message("module.kind.module")
         ModuleKind.singleplatformAndroid -> KotlinNewProjectWizardBundle.message("module.kind.android.module")
         ModuleKind.target -> KotlinNewProjectWizardBundle.message("module.kind.target")
-        ModuleKind.hmppSourceSet -> KotlinNewProjectWizardBundle.message("module.kind.sourceset")
+        ModuleKind.hmppSourceSet -> KotlinNewProjectWizardBundle.message("module.kind.shared.source.set")
     }

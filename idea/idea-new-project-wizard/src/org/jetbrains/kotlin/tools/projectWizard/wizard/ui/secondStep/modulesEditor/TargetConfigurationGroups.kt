@@ -54,6 +54,7 @@ object TargetConfigurationGroups {
             KotlinNewProjectWizardBundle.message("module.configuration.group.ios"),
             KotlinIcons.Wizard.IOS,
             listOf(
+                IOSSourceSetTemplateConfigurator,
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.iosArm32),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.iosArm64),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.iosX64)
@@ -64,6 +65,7 @@ object TargetConfigurationGroups {
             KotlinNewProjectWizardBundle.message("module.configuration.group.watchos"),
             KotlinIcons.Wizard.MAC_OS,
             listOf(
+                WatchOSSourceSetTemplateConfigurator,
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosArm32),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosArm64),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.watchosX86)
@@ -74,6 +76,7 @@ object TargetConfigurationGroups {
             KotlinNewProjectWizardBundle.message("module.configuration.group.tvos"),
             KotlinIcons.Wizard.MAC_OS,
             listOf(
+                TvOSSourceSetTemplateConfigurator,
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.tvosArm64),
                 RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.tvosX64)
             )
@@ -88,14 +91,6 @@ object TargetConfigurationGroups {
             )
         )
 
-        val WEB_ASSEMBLY = FinalTargetConfiguratorGroup(
-            KotlinNewProjectWizardBundle.message("module.configuration.group.web.assembly"),
-            KotlinIcons.Wizard.NATIVE,
-            listOf(
-                RealNativeTargetConfigurator.configuratorsByModuleType.getValue(ModuleSubType.wasm32)
-            )
-        )
-
         val ALL = StepTargetConfiguratorGroup(
             ModuleType.native.projectTypeName,
             ModuleType.native,
@@ -107,22 +102,11 @@ object TargetConfigurationGroups {
                 IOS,
                 WATCHOS,
                 TVOS,
-                ANDROID_NATIVE,
-                WEB_ASSEMBLY
+                ANDROID_NATIVE
             )
         )
     }
 
-    val SOURCE_SET = FinalTargetConfiguratorGroup(
-        KotlinNewProjectWizardBundle.message("module.configuration.group.sourceset"),
-        KotlinIcons.SMALL_LOGO,
-        listOf(
-            IOSSourceSetTemplateConfigurator,
-            WatchOSSourceSetTemplateConfigurator,
-            TvOSSourceSetTemplateConfigurator,
-            EmptySourceSetTemplateConfigurator
-        )
-    )
     val FIRST = FirstStepTargetConfiguratorGroup(
         listOf(
             CommonTargetConfigurator,
@@ -130,7 +114,7 @@ object TargetConfigurationGroups {
             NATIVE.ALL,
             JS,
             AndroidTargetConfigurator,
-            SOURCE_SET
+            HmppSourceSetConfigurator
         )
     )
 }

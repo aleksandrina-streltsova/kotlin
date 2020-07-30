@@ -149,7 +149,7 @@ val ModuleType.defaultTarget
 
 object HmppSourceSetConfigurator : ModuleConfigurator {
     override val id: String = "sourceSet"
-    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.sourceset")
+    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.shared.source.set")
     override val suggestedModuleName: String = "sourceSet"
 
     override val moduleKind: ModuleKind = ModuleKind.hmppSourceSet
@@ -223,28 +223,25 @@ enum class Shortcut(val osName: String, val numberOfTargets: String = "two") {
     abstract val targetConfigurators: Set<TargetConfigurator>
 }
 
-object EmptySourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
-    override val suggestedModuleName: String? = "sourceSet"
-    override val text: String = "Empty sourceSet"
-    override val subModuleTypes: List<ModuleSubType> = emptyList()
-}
-
 object IOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
     override val suggestedModuleName: String? = "ios"
-    override val text: String = "iOS sourceSet"
+    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.ios.source.set")
+    override val greyText = KotlinNewProjectWizardBundle.message("module.configurator.shared.source.set")
     override val subModuleTypes: List<ModuleSubType> = listOf(ModuleSubType.iosArm64, ModuleSubType.iosX64)
 }
 
 object WatchOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
     override val suggestedModuleName: String? = "watchos"
-    override val text: String = "watchOS sourceSet"
+    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.watchos.source.set")
+    override val greyText = KotlinNewProjectWizardBundle.message("module.configurator.shared.source.set")
     override val subModuleTypes: List<ModuleSubType> =
         listOf(ModuleSubType.watchosArm32, ModuleSubType.watchosArm64, ModuleSubType.watchosX86)
 }
 
 object TvOSSourceSetTemplateConfigurator : SourceSetTemplateConfigurator() {
     override val suggestedModuleName: String? = "tvos"
-    override val text: String = "tvOS sourceSet"
+    override val text: String = KotlinNewProjectWizardBundle.message("module.configurator.tvos.source.set")
+    override val greyText = KotlinNewProjectWizardBundle.message("module.configurator.shared.source.set")
     override val subModuleTypes: List<ModuleSubType> = listOf(ModuleSubType.tvosArm64, ModuleSubType.tvosX64)
 }
 

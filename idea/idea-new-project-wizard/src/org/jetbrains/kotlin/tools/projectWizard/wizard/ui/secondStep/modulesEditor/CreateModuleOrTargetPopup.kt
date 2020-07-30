@@ -43,7 +43,7 @@ class CreateModuleOrTargetPopup private constructor(
 
     private fun DisplayableSettingItem.needToShow(): Boolean = when (this) {
         is TargetConfigurator -> needToShow()
-        is SourceSetTemplateConfigurator -> true
+        is SourceSetTemplateConfigurator, is HmppSourceSetConfigurator -> true
         is TargetConfiguratorGroupWithSubItems -> subItems.any { it.needToShow() }
         else -> false
     }
@@ -75,7 +75,7 @@ class CreateModuleOrTargetPopup private constructor(
         targetConfiguratorGroup: TargetConfiguratorGroupWithSubItems,
         showTitle: Boolean
     ) : BaseListPopupStep<DisplayableSettingItem>(
-        KotlinNewProjectWizardBundle.message("module.kind.target").takeIf { showTitle },
+        KotlinNewProjectWizardBundle.message("module.kind.target.or.source.set").takeIf { showTitle },
         targetConfiguratorGroup.subItems.filter { it.needToShow() }
     ) {
         override fun getIconFor(value: DisplayableSettingItem): Icon? = when (value) {
@@ -101,15 +101,15 @@ class CreateModuleOrTargetPopup private constructor(
         }
     }
 
-    private fun create(): ListPopup? = if (target?.kind == ModuleKind.multiplatform || target?.kind == ModuleKind.hmppSourceSet) {
-        ChooseTargetTypeStep(TargetConfigurationGroups.FIRST, showTitle = true)
-    } else {
-        when {
-            allowMultiplatform || allowAndroid || allowIos -> ChooseModuleOrMppModuleStep()
-            else -> {
-                createModule(JvmSinglePlatformModuleConfigurator)
-                null
-            }
+    private fun create(): ListPopup? = when {
+        target?.kind == ModuleKind.multiplatform || target?.kind == ModuleKind.hmppSourceSet -> ChooseTargetTypeStep(
+            TargetConfigurationGroups.FIRST,
+            showTitle = true
+        )
+        allowMultiplatform || allowAndroid || allowIos -> ChooseModuleOrMppModuleStep()
+        else -> {
+            createModule(JvmSinglePlatformModuleConfigurator)
+            null
         }
     }?.let { PopupFactoryImpl.getInstance().createListPopup(it) }
 

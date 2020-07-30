@@ -30,7 +30,6 @@ enum class ModuleSubType(val moduleType: ModuleType) {
     iosArm32(ModuleType.native), iosArm64(ModuleType.native), iosX64(ModuleType.native),
     watchosArm32(ModuleType.native), watchosArm64(ModuleType.native), watchosX86(ModuleType.native),
     tvosArm64(ModuleType.native), tvosX64(ModuleType.native),
-    wasm32(ModuleType.native),
     linuxArm32Hfp(ModuleType.native), linuxMips32(ModuleType.native), linuxMipsel32(ModuleType.native),
     linuxX64(ModuleType.native),
     macosX64(ModuleType.native),

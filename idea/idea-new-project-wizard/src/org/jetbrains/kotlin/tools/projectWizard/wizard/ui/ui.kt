@@ -86,7 +86,6 @@ val ModuleSubType.icon: Icon
         ModuleSubType.iosArm32, ModuleSubType.iosArm64, ModuleSubType.iosX64 -> KotlinIcons.Wizard.IOS
         ModuleSubType.watchosX86, ModuleSubType.watchosArm32, ModuleSubType.watchosArm64 -> KotlinIcons.Wizard.MAC_OS
         ModuleSubType.tvosX64, ModuleSubType.tvosArm64 -> KotlinIcons.Wizard.MAC_OS
-        ModuleSubType.wasm32 -> KotlinIcons.Wizard.NATIVE
         ModuleSubType.linuxArm32Hfp, ModuleSubType.linuxMips32, ModuleSubType.linuxMipsel32, ModuleSubType.linuxX64 ->
             KotlinIcons.Wizard.LINUX
         ModuleSubType.macosX64 -> KotlinIcons.Wizard.MAC_OS
