@@ -14,14 +14,14 @@ kotlin {
     tvosArm64 {
         binaries {
             framework {
-                baseName = "tvos"
+                baseName = "a"
             }
         }
     }
     tvosX64 {
         binaries {
             framework {
-                baseName = "tvos"
+                baseName = "a"
             }
         }
     }
@@ -30,7 +30,7 @@ kotlin {
     tvos("anotherTvos") {
         binaries {
             framework {
-                baseName = "anotherTvos"
+                baseName = "a"
             }
         }
     }

@@ -168,13 +168,7 @@ object HmppSourceSetConfigurator : ModuleConfigurator {
             addRaw("// Create common source sets: ${module.name}Main and ${module.name}Test.")
             +DefaultTargetConfigurationIR(
                 TargetAccessIR(null, shortcut.name, module.name.takeIf { it != shortcut.name }),
-                irsList {
-                    "binaries" {
-                        "framework"  {
-                            "baseName" assign const(module.name)
-                        }
-                    }
-                }.toPersistentList()
+                binariesFrameworkBaseNameIrs(module).toPersistentList()
             )
         }
     }
@@ -258,3 +252,11 @@ fun moduleIsSourceSetWithShortcut(module: Module): Shortcut? {
 }
 
 fun moduleIsPartOfSourceSetWithShortcut(module: Module): Boolean = module.parent?.let { moduleIsSourceSetWithShortcut(it) != null } ?: false
+
+fun binariesFrameworkBaseNameIrs(module: Module) = irsList {
+    "binaries" {
+        "framework"  {
+            "baseName" assign const((module.topmostHmppSourcesetAncestor ?: module).parent?.name ?: "mainModule")
+        }
+    }
+}

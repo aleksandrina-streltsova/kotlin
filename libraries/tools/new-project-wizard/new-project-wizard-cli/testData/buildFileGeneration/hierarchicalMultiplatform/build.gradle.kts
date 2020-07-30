@@ -37,7 +37,7 @@ kotlin {
     iosX64 {
         binaries {
             framework {
-                baseName = "nativeDarwin"
+                baseName = "a"
             }
         }
     }

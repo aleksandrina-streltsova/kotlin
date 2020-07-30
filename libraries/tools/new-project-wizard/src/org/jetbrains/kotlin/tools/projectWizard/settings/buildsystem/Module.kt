@@ -172,13 +172,18 @@ val Module.isRootModule
     get() = parent == null
 
 val Module.topmostHmppSourcesetAncestor: Module?
-    get() = if (kind == ModuleKind.hmppSourceSet) {
-        var hmppSourceSetAncestor: Module? = this
+    get() {
+        var hmppSourceSetAncestor: Module? = when {
+            kind == ModuleKind.hmppSourceSet -> this
+            parent?.kind == ModuleKind.hmppSourceSet -> parent
+            else -> null
+        }
         while (hmppSourceSetAncestor?.parent?.kind == ModuleKind.hmppSourceSet) {
             hmppSourceSetAncestor = hmppSourceSetAncestor.parent
         }
-        hmppSourceSetAncestor
-    } else null
+        return hmppSourceSetAncestor
+    }
+
 
 @Suppress("FunctionName")
 fun MultiplatformTargetModule(@NonNls name: String, configurator: ModuleConfigurator, sourcesets: List<Sourceset>) =

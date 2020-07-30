@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.tools.projectWizard.plugins.buildSystem.BuildSystemT
 import org.jetbrains.kotlin.tools.projectWizard.plugins.kotlin.*
 import org.jetbrains.kotlin.tools.projectWizard.plugins.printer.GradlePrinter
 import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.Module
+import org.jetbrains.kotlin.tools.projectWizard.settings.buildsystem.topmostHmppSourcesetAncestor
 
 interface NativeTargetConfigurator : TargetConfigurator {
     val isDesktopTarget: Boolean
@@ -28,13 +29,8 @@ class RealNativeTargetConfigurator private constructor(
     override val isIosTarget: Boolean
         get() = moduleSubType.isIOSBased
 
-    override fun createInnerTargetIrs(reader: Reader, module: Module): List<BuildSystemIR> = if (moduleSubType.isIOSBased) irsList {
-        "binaries" {
-            "framework"  {
-                "baseName" assign const(module.parent!!.name)
-            }
-        }
-    } else emptyList()
+    override fun createInnerTargetIrs(reader: Reader, module: Module): List<BuildSystemIR> =
+        if (moduleSubType.isIOSBased) binariesFrameworkBaseNameIrs(module) else emptyList()
 
     companion object {
         val configurators = ModuleSubType.values()

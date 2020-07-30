@@ -14,14 +14,14 @@ kotlin {
     iosArm64 {
         binaries {
             framework {
-                baseName = "ios"
+                baseName = "a"
             }
         }
     }
     iosX64 {
         binaries {
             framework {
-                baseName = "ios"
+                baseName = "a"
             }
         }
     }
@@ -30,7 +30,7 @@ kotlin {
     ios("anotherIos") {
         binaries {
             framework {
-                baseName = "anotherIos"
+                baseName = "a"
             }
         }
     }

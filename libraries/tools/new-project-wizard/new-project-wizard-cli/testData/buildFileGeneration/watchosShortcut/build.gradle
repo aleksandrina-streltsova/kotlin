@@ -14,21 +14,21 @@ kotlin {
     watchosArm32 {
         binaries {
             framework {
-                baseName = 'watchos'
+                baseName = 'a'
             }
         }
     }
     watchosArm64 {
         binaries {
             framework {
-                baseName = 'watchos'
+                baseName = 'a'
             }
         }
     }
     watchosX86 {
         binaries {
             framework {
-                baseName = 'watchos'
+                baseName = 'a'
             }
         }
     }
@@ -37,7 +37,7 @@ kotlin {
     watchos('anotherWatchos') {
         binaries {
             framework {
-                baseName = 'anotherWatchos'
+                baseName = 'a'
             }
         }
     }
